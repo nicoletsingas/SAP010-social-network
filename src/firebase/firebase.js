@@ -84,7 +84,7 @@ const authUser = async (email, password) => {
     await createUserWithEmailAndPassword(auth, email, password);
   } catch (error) {
     console.log(error.message);
-    throw Error('Erro ao autenticar o usuário')
+    throw Error('Erro ao autenticar o usuário');
   }
 }
 
