@@ -1,6 +1,6 @@
 import './register.css';
 import registerImage from '../../images/register.svg';
-import { registerUser, auth } from '../../firebase/firebase.js';
+import { registerUser, authUser, isUserLoggedIn } from '../../firebase/firebase.js';
 
 export default () => {
   // Definindo o HTML do formulário de cadastro
@@ -61,7 +61,7 @@ export default () => {
     return strongPassword.test(password);
   };
   // Escutando o submit para enviar o formulário
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();// Evitar envio do formulário por padrão
     // Obter os valores dos campos de entrada
     const name = document.getElementById('name').value;
@@ -84,18 +84,21 @@ export default () => {
     let officialPassword;
     if (password !== confirmPassword) {
       passwordDifferent.textContent = 'As senhas informadas são diferentes';
-    } else if (strongPassword.test(password)){
+    } else if (strongPassword.test(password)) {
       officialPassword = password;
-    }else{
+    } else {
       passwordAlert.textContent = '1 letra maíuscula e minuscula, 1 caracter especial e 1 número';
     }
     // Registrar o usuário usando as informações fornecidas
-    await registerUser(name, username, email, officialPassword);
 
-    if (auth.currentUser) {
-      window.location.href = '#feed';
-    }
-
+    authUser(email, officialPassword)
+      .then((user) => isUserLoggedIn)
+      .then((user) => {
+        console.log(user.uid)
+       registerUser(user.uid, name, username, user.email)
+      })
+      .then(() => window.location.hash = '#feed')
+      .catch((error) => console.log(error.message))
   });
 
   // Adicionar evento de clique no checkbox para mostrar/esconder a senha
