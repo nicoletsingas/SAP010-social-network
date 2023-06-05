@@ -3,7 +3,7 @@ import meninaLogin from '../../images/login.svg';
 import googleImg from '../../images/google.svg';
 import githubImg from '../../images/github-mobile.svg';
 import {
-  logIn, signInWithGoogle, signInWithGitHub, auth, registerUserWithAnotherProvider,
+  logIn, signInWithGoogle, signInWithGitHub, registerUser, isUserLoggedIn,
 } from '../../firebase/firebase.js';
 
 export default () => {
@@ -105,7 +105,7 @@ export default () => {
       await logIn(email, password);
       if (auth.currentUser) {
         window.location.href = '#feed';
-      } else{
+      } else {
         userAlert.textContent = 'Usuário não cadastrado!';
       }
     } catch (error) {
@@ -114,38 +114,42 @@ export default () => {
   });
 
   // login com google e github
-  loginGoogle.addEventListener('click', async () => {
-    try {
-      await signInWithGoogle();
-      const uid = auth.currentUser.uid;
-      const name = auth.currentUser.displayName;
-      const email = auth.currentUser.email;
-      await registerUserWithAnotherProvider(uid, name, name, email);
-      if (auth.currentUser) {
-        window.location.href = '#feed';
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+  loginGoogle.addEventListener('click', () => {
+
+    signInWithGoogle()
+      .then((user) => isUserLoggedIn)
+      .then((user) => {
+        const uid = user.uid;
+        const name = user.displayName;
+        const email = user.email;
+        registerUser(uid, name, name, email);
+      })
+      .then(() => window.location.href = '#feed')
+      .catch((error) => console.log(error.message))
+
   });
 
-  loginGitHub.addEventListener('click', async () => {
-    try {
-      await signInWithGitHub();
-      const uid = auth.currentUser.uid;
-      const name = auth.currentUser.displayName;
-      const email = auth.currentUser.email;
-      await registerUserWithAnotherProvider(uid, name, name, email);
-      if (auth.currentUser) {
-        window.location.href = '#feed';
-      }
-    } catch (error) {
-      if (error.message === "Cannot read properties of null (reading 'uid')") {
-        alert('Usuário já cadastrado com provedor do Google');
-      }
-      console.log(error.message);
-    }
+  loginGitHub.addEventListener('click', () => {
+
+    signInWithGitHub()
+      .then((user) => isUserLoggedIn)
+      .then((user) => {
+        const uid = user.uid;
+        const name = user.displayName;
+        const email = user.email;
+        registerUser(uid, name, name, email);
+      })
+      .then(() => window.location.href = '#feed')
+      .catch((error) => {
+        if (error.message === "Cannot read properties of null (reading 'uid')") {
+          alert('Usuário já cadastrado com provedor do Google');
+        } else {
+          console.log(error.message);
+        }
+      })
+
   });
 
   return userLogin;
+
 };

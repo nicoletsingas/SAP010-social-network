@@ -21,7 +21,7 @@ const changeScreen = async () => {
       break;
     case '#feed':
       {
-        const user = await isUserLoggedIn();
+        const user = await isUserLoggedIn;
         if (user) {
           main.appendChild(feed());
         } else {
