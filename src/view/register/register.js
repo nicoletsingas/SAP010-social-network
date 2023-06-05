@@ -92,10 +92,10 @@ export default () => {
     // Registrar o usuário usando as informações fornecidas
 
     authUser(email, officialPassword)
-      .then((user) => isUserLoggedIn)
+      .then((user) => {return isUserLoggedIn})
       .then((user) => {
         console.log(user.uid)
-       registerUser(user.uid, name, username, user.email)
+        return registerUser(user.uid, name, username, user.email)
       })
       .then(() => window.location.hash = '#feed')
       .catch((error) => console.log(error.message))
