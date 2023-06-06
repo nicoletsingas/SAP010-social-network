@@ -3,7 +3,7 @@ import meninaLogin from '../../images/login.svg';
 import googleImg from '../../images/google.svg';
 import githubImg from '../../images/github-mobile.svg';
 import {
-  logIn, signInWithGoogle, signInWithGitHub, registerUser, isUserLoggedIn,
+  logIn, signInWithGoogle, signInWithGitHub, registerUser, auth
 } from '../../firebase/firebase.js';
 
 export default () => {
@@ -117,11 +117,10 @@ export default () => {
   loginGoogle.addEventListener('click', async () => {
 
     await signInWithGoogle()
-      .then((user) => isUserLoggedIn)
-      .then((user) => {
-        const uid = user.uid;
-        const name = user.displayName;
-        const email = user.email;
+      .then(() => {
+        const uid = auth.currentUser.uid;
+        const name = auth.currentUser.displayName;
+        const email = auth.currentUser.email;
         registerUser(uid, name, name, email);
       })
       .then(() => window.location.href = '#feed')
@@ -132,11 +131,10 @@ export default () => {
   loginGitHub.addEventListener('click', async () => {
 
     await signInWithGitHub()
-      .then((user) => isUserLoggedIn)
-      .then((user) => {
-        const uid = user.uid;
-        const name = user.displayName;
-        const email = user.email;
+      .then(() => {
+        const uid = auth.currentUser.uid;
+        const name = auth.currentUser.displayName;
+        const email = auth.currentUser.email;
         registerUser(uid, name, name, email);
       })
       .then(() => window.location.href = '#feed')
