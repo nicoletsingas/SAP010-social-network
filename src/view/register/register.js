@@ -1,6 +1,6 @@
 import './register.css';
 import registerImage from '../../images/register.svg';
-import { registerUser, authUser, isUserLoggedIn } from '../../firebase/firebase.js';
+import { registerUser, authUser, auth} from '../../firebase/firebase.js';
 
 export default () => {
   // Definindo o HTML do formulário de cadastro
@@ -29,7 +29,7 @@ export default () => {
             <label for="confirm-password-checkbox" class="btn-checkbox"></label>
           </div>
           <span id='password-different' class='alert'></span>
-          <button type="submit" class="btn-register" disabled>Inscreva-se</button>
+          <button id="submit-form" class="btn-register" disabled>Inscreva-se</button>
           <p class="have-an-account">Já possui uma conta?<a class="login-account" href="/#login">Acesse sua conta agora</a></p>
         </form>
       </section>
@@ -60,8 +60,9 @@ export default () => {
     const password = passwordInput.value; // Obter o valor do campo de senha
     return strongPassword.test(password);
   };
-  // Escutando o submit para enviar o formulário
-  form.addEventListener('submit', (e) => {
+
+  const btnForm = userRegister.querySelector('#submit-form')
+  btnForm.addEventListener('click', async (e) => {
     e.preventDefault();// Evitar envio do formulário por padrão
     // Obter os valores dos campos de entrada
     const name = document.getElementById('name').value;
@@ -69,6 +70,8 @@ export default () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
+    // Escutando o submit para enviar o formulário
+
     // Verificar se a senha atende aos requisitos mínimos
     if (!validatePassword()) {
       passwordAlert.textContent = '1 letra maíuscula e minuscula, 1 caracter especial e 1 número';
@@ -91,11 +94,9 @@ export default () => {
     }
     // Registrar o usuário usando as informações fornecidas
 
-    authUser(email, officialPassword)
-      .then((user) => {return isUserLoggedIn})
-      .then((user) => {
-        console.log(user.uid)
-        return registerUser(user.uid, name, username, user.email)
+    await authUser(email, officialPassword)
+      .then(() => {
+        return registerUser(auth.currentUser.uid, name, username, email)
       })
       .then(() => window.location.hash = '#feed')
       .catch((error) => console.log(error.message))

@@ -114,9 +114,9 @@ export default () => {
   });
 
   // login com google e github
-  loginGoogle.addEventListener('click', () => {
+  loginGoogle.addEventListener('click', async () => {
 
-    signInWithGoogle()
+    await signInWithGoogle()
       .then((user) => isUserLoggedIn)
       .then((user) => {
         const uid = user.uid;
@@ -129,9 +129,9 @@ export default () => {
 
   });
 
-  loginGitHub.addEventListener('click', () => {
+  loginGitHub.addEventListener('click', async () => {
 
-    signInWithGitHub()
+    await signInWithGitHub()
       .then((user) => isUserLoggedIn)
       .then((user) => {
         const uid = user.uid;
