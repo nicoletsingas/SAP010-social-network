@@ -116,7 +116,7 @@ a{
 }
 
 .post-container {
-    width: 500px;
+    width: 100%;
     height: 180px;
     background: #ECF0FF;
     border-radius: 10px;
@@ -124,7 +124,7 @@ a{
   }
 
   .post-header {
-    width: 500px;
+    width: 100%;
     height: 40px;
     background: #6F69EF;
     border-radius: 10px 10px 0px 0px;
