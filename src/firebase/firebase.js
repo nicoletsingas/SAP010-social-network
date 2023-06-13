@@ -4,7 +4,8 @@ import {
 } from 'firebase/auth';
 
 import {
-  setDoc, doc, collection, serverTimestamp, getDocs, orderBy, query, updateDoc, deleteDoc, where, getDoc
+  setDoc, doc, collection, serverTimestamp, getDocs, orderBy,
+  query, updateDoc, deleteDoc, where,
 } from 'firebase/firestore';
 
 import {
@@ -85,7 +86,7 @@ const createPost = async (textPost) => {
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((document) => {
     nameUser = document.data().username;
-  })
+  });
   const post = {
     id: uid,
     user: nameUser,
@@ -95,8 +96,8 @@ const createPost = async (textPost) => {
   };
   const docRef = doc(collection(db, 'posts'));
   await setDoc(docRef, post);
-  updateDoc(docRef, { docRef: docRef.id })
-  console.log(auth.currentUser)
+  updateDoc(docRef, { docRef: docRef.id });
+  console.log(auth.currentUser);
 };
 
 const listAllPosts = async () => {
@@ -115,11 +116,11 @@ const editPost = async (id, textPost) => {
   await updateDoc(refDoc, {
     content: textPost,
   });
-}
+};
 
 const deletePost = async (id) => {
   await deleteDoc(doc(db, 'posts', `${id}`));
-}
+};
 
 const isPostOwner = async (user) => {
   const ref = collection(db, 'posts');
@@ -128,19 +129,19 @@ const isPostOwner = async (user) => {
   return new Promise((resolve, reject) => {
     querySnapshot.forEach((document) => {
       if (user.uid === document.data().id) {
-        console.log(document.data().id)
-        console.log(true)
+        console.log(document.data().id);
+        console.log(true);
         resolve(document.data());
       } else {
-        console.log(false)
+        console.log(false);
         reject(new Error('a'));
       }
-    })
-
+    });
   });
-}
+};
 
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
-  isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost, deletePost, isPostOwner
+  isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
+  deletePost, isPostOwner,
 };
