@@ -1,5 +1,8 @@
 import { logOut, createPost, listAllPosts } from "../../firebase/firebase";
 import "./feed.css";
+import profileIcon from '../../images/profile-icon.svg';
+import signoutIcon from '../../images/signout-icon.svg';
+import feedIcon from '../../images/feed-icon.svg';
 
 export default () => {
   const containerFeed = document.createElement("section");
@@ -18,9 +21,24 @@ export default () => {
     <main class="main">
       <nav class="menu-nav">
         <ul>
-          <li><a href="#profile">Meu perfil</a></li>
-          <li><a href="#feed">Feed</a></li>
-          <li><a href="" class="btn-logout">Sair</a></li>
+          <li class="li-sidebar-menu"> 
+            <a href="#profile" class="itens-menu">
+              <img class="icons" src=${profileIcon} alt="profile icon">
+              <span>Meu perfil</span>
+            </a>
+          </li>
+          <li class="li-sidebar-menu"> 
+            <a href="#feed" class="itens-menu">
+              <img class="icons" src=${feedIcon} alt="feed icon">
+              <span>Feed</span>
+            </a> 
+          </li>
+          <li class="li-sidebar-menu"> 
+            <a href="" class="btn-logout" class="itens-menu">
+              <img class="icons" src=${signoutIcon} alt="signout icon">
+              <span>Sair</span>
+            </a> 
+          </li>
         </ul>
       </nav>
       <div class="feed">
