@@ -14,7 +14,13 @@ import {
 const auth = getAuth(app);
 
 const isUserLoggedIn = () => new Promise((resolve) => {
-  auth.onAuthStateChanged((user) => resolve(!!user));
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      resolve(true);
+    } else {
+      resolve(false);
+    }
+  });
 });
 
 const logIn = async (email, password) => {

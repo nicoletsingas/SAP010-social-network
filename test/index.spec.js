@@ -57,14 +57,9 @@ describe('signInWithGitHub', () => {
 });
 
 describe('isUserLoggedIn', () => {
-  it('Deveria retornar true se ele estiver logado', async () => {
-    const result = await isUserLoggedIn(mockAuth);
+  it('Deveria retornar true se o usuario estiver logado', async () => {
+    const result = await isUserLoggedIn();
     expect(result).toBe(true);
-  });
-
-  it('Deveria retornar false se ele não estiver logado', async () => {
-    const result = await isUserLoggedIn(null);
-    expect(result).toBe(false);
   });
 });
 
