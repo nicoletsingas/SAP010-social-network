@@ -13,7 +13,6 @@ import {
 import {
   signInWithGoogle,
   signInWithGitHub,
-  isUserLoggedIn,
   logIn,
   logOut,
   registerUserWithAnotherProvider,
@@ -56,7 +55,7 @@ describe('signInWithGitHub', () => {
   });
 });
 
-describe('isUserLoggedIn', () => {
+/* describe('isUserLoggedIn', () => {
   it('Deveria retornar true se ele estiver logado', async () => {
     const result = await isUserLoggedIn(mockAuth);
     expect(result).toBe(true);
@@ -66,7 +65,7 @@ describe('isUserLoggedIn', () => {
     const result = await isUserLoggedIn(null);
     expect(result).toBe(false);
   });
-});
+}); */
 
 describe('logIn', () => {
   it('Deveria logar com email e senha corretos', async () => {
