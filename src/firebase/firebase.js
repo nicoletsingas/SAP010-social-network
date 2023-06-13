@@ -4,7 +4,7 @@ import {
 } from 'firebase/auth';
 
 import {
-  setDoc, doc, collection, serverTimestamp, getDocs, orderBy, query,
+  setDoc, doc, collection, serverTimestamp, getDocs, orderBy, query, updateDoc, deleteDoc, where, getDoc
 } from 'firebase/firestore';
 
 import {
@@ -79,16 +79,24 @@ const registerUser = async (name, username, email, password) => {
 
 const createPost = async (textPost) => {
   const uid = auth.currentUser.uid;
-  const name = auth.currentUser.displayName;
+  let nameUser = '';
+  const docRefUser = collection(db, 'users');
+  const q = query(docRefUser, where('id', '==', uid));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((document) => {
+    nameUser = document.data().username;
+  })
   const post = {
     id: uid,
-    user: name,
+    user: nameUser,
     content: textPost,
     likes: 0,
     dateTime: serverTimestamp(),
   };
   const docRef = doc(collection(db, 'posts'));
   await setDoc(docRef, post);
+  updateDoc(docRef, { docRef: docRef.id })
+  console.log(auth.currentUser)
 };
 
 const listAllPosts = async () => {
@@ -102,7 +110,37 @@ const listAllPosts = async () => {
   return posts;
 };
 
+const editPost = async (id, textPost) => {
+  const refDoc = doc(db, 'posts', `${id}`);
+  await updateDoc(refDoc, {
+    content: textPost,
+  });
+}
+
+const deletePost = async (id) => {
+  await deleteDoc(doc(db, 'posts', `${id}`));
+}
+
+const isPostOwner = async (user) => {
+  const ref = collection(db, 'posts');
+  const q = query(ref, where('id', '==', user.uid));
+  const querySnapshot = await getDocs(q);
+  return new Promise((resolve, reject) => {
+    querySnapshot.forEach((document) => {
+      if (user.uid === document.data().id) {
+        console.log(document.data().id)
+        console.log(true)
+        resolve(document.data());
+      } else {
+        console.log(false)
+        reject(new Error('a'));
+      }
+    })
+
+  });
+}
+
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
-  isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts,
+  isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost, deletePost, isPostOwner
 };

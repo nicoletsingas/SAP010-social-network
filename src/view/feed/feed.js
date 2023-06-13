@@ -1,5 +1,6 @@
-import { logOut, createPost, listAllPosts } from '../../firebase/firebase';
-import './feed.css';
+import { async } from "regenerator-runtime";
+import { logOut, createPost, listAllPosts, editPost, deletePost, auth, isPostOwner } from "../../firebase/firebase";
+import "./feed.css";
 import profileIcon from '../../images/profile-icon.svg';
 import signoutIcon from '../../images/signout-icon.svg';
 import feedIcon from '../../images/feed-icon.svg';
@@ -85,6 +86,7 @@ export default () => {
   const postsList = document.createElement('section');
   postsList.classList.add('section-posts')
   const showPosts = (post) => {
+    console.log(post)
     const feed = `
     <div class="post-container">
       <div class="post-header">Publicado por ${post.user}</div>
@@ -97,22 +99,58 @@ export default () => {
         <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
       </div>
       <div class="post-actions">
-        <div class="edit-btn">
-          <img src="images/edit-icon.svg" alt="Editar">
+        <div class="edit-btn" style="display: none;">
+          <img id="${post.docRef}" src="images/edit-icon.svg" alt="Editar">
         </div>
-        <div class="delete-btn">
-          <img src="images/delete-icon.svg" alt="Excluir">
+        <div class="delete-btn" style="display: none;">
+          <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir">
         </div>
       </div>
     </div>
     `;
     postsList.innerHTML += feed;
     feedMain.appendChild(postsList);
+
+    const btnEdit = postsList.querySelector('.edit-btn');
+    const btnDelete = postsList.querySelector('.delete-btn');
+
+    isPostOwner(auth.currentUser)
+    .then(() => {
+      btnEdit.style.display = 'block';
+      btnDelete.style.display = 'block';
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
+
+    btnEdit.addEventListener('click', async (event) => {
+      const post = containerFeed.querySelector("#user-text-area");
+      const postInput = post.value;
+      const id = event.target.id;
+      await editPost(id, postInput);
+    })
+
+    btnDelete.addEventListener('click', async (event) => {
+      console.log(event.target)
+      const isItToDelete = confirm('Deseja mesmo excluir o post?');
+      if (isItToDelete) {
+        const id = event.target.id;
+        await deletePost(id);
+        listAllPosts().then((posts) => {
+          postsList.innerHTML = "";
+          posts.forEach((publish) => {
+            showPosts(publish);
+          });
+        });
+      }
+    })
+
   };
 
-  btnPublish.addEventListener('click', async () => {
-    console.log('chamei o click');
-    const post = containerFeed.querySelector('#user-text-area');
+
+  btnPublish.addEventListener("click", async () => {
+    console.log("chamei o click");
+    const post = containerFeed.querySelector("#user-text-area");
     const postInput = post.value;
     if (postInput.length > 0) {
       await createPost(postInput);
@@ -133,5 +171,6 @@ export default () => {
       showPosts(post);
     });
   });
+
   return containerFeed;
 };
