@@ -1,12 +1,12 @@
-import { logOut, createPost, listAllPosts } from "../../firebase/firebase";
-import "./feed.css";
+import { logOut, createPost, listAllPosts } from '../../firebase/firebase';
+import './feed.css';
 import profileIcon from '../../images/profile-icon.svg';
 import signoutIcon from '../../images/signout-icon.svg';
 import feedIcon from '../../images/feed-icon.svg';
 
 export default () => {
-  const containerFeed = document.createElement("section");
-  containerFeed.classList.add("container-feed");
+  const containerFeed = document.createElement('section');
+  containerFeed.classList.add('container-feed');
   const templateFeed = `
     <header>
       <div class="header">
@@ -53,31 +53,31 @@ export default () => {
     `;
   containerFeed.innerHTML = templateFeed;
 
-  const feedMain = containerFeed.querySelector(".feed");
-  const btnLogOut = containerFeed.querySelector(".btn-logout");
-  const imgHamburgerMenu = containerFeed.querySelector(".hamburger-menu");
-  const btnPublish = containerFeed.querySelector(".btn-publish");
+  const feedMain = containerFeed.querySelector('.feed');
+  const btnLogOut = containerFeed.querySelector('.btn-logout');
+  const imgHamburgerMenu = containerFeed.querySelector('.hamburger-menu');
+  const btnPublish = containerFeed.querySelector('.btn-publish');
 
-  btnLogOut.addEventListener("click", async () => {
+  btnLogOut.addEventListener('click', async () => {
     try {
       await logOut();
-      window.location.href = "#home";
+      window.location.href = '#home';
     } catch (error) {
       console.log(error.message);
     }
   });
 
-  imgHamburgerMenu.addEventListener("click", () => {
-    const itensMenu = containerFeed.querySelector(".menu-nav");
-    if (itensMenu.style.display === "none") {
-      itensMenu.style.display = "block";
+  imgHamburgerMenu.addEventListener('click', () => {
+    const itensMenu = containerFeed.querySelector('.menu-nav');
+    if (itensMenu.style.display === 'none') {
+      itensMenu.style.display = 'block';
     } else {
-      itensMenu.style.display = "none";
+      itensMenu.style.display = 'none';
     }
   });
 
   // criar função showPosts e ela recebe o conteudo de allPosts
-  const postsList = document.createElement("section");
+  const postsList = document.createElement('section');
   const showPosts = (post) => {
     const feed = `
     <div class="post-container">
@@ -104,21 +104,21 @@ export default () => {
     feedMain.appendChild(postsList);
   };
 
-  btnPublish.addEventListener("click", async () => {
-    console.log("chamei o click");
-    const post = containerFeed.querySelector("#user-text-area");
+  btnPublish.addEventListener('click', async () => {
+    console.log('chamei o click');
+    const post = containerFeed.querySelector('#user-text-area');
     const postInput = post.value;
     if (postInput.length > 0) {
       await createPost(postInput);
-      post.value = "";
+      post.value = '';
       listAllPosts().then((posts) => {
-        postsList.innerHTML = "";
+        postsList.innerHTML = '';
         posts.forEach((publish) => {
           showPosts(publish);
         });
       });
     } else {
-      alert("Não pode publicar um post vazio!");
+      alert('Não pode publicar um post vazio!');
     }
   });
 
