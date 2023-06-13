@@ -36,7 +36,8 @@
   },
   "dependencies": {
     "@jest/globals": "^29.5.0",
-    "firebase": "^9.22.0"
+    "auth": "^0.0.1",
+    "firebase": "^9.22.2"
   },
   "engines": {
     "node": ">=16.x"

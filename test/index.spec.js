@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   auth,
+  onAuthStateChanged,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
 
@@ -32,6 +33,10 @@ const mockAuth = {
 jest.mock('firebase/auth');
 jest.mock('firebase/firestore');
 
+beforeAll(() => {
+  jest.clearAllMocks();
+});
+
 describe('signInWithGoogle', () => {
   it('deveria ser uma função', () => {
     expect(typeof signInWithGoogle).toBe('function');
@@ -57,9 +62,14 @@ describe('signInWithGitHub', () => {
 });
 
 describe('isUserLoggedIn', () => {
-  it('Deveria retornar true se o usuario estiver logado', async () => {
+  it('Deveria retornar true se o usuário estiver logado', async () => {
+    onAuthStateChanged.mockImplementationOnce(auth, (mockAuth));
     const result = await isUserLoggedIn();
     expect(result).toBe(true);
+  });
+  it('Deveria retornar false se ele não estiver logado', async () => {
+    const result = await isUserLoggedIn(null);
+    expect(result).toBe(false);
   });
 });
 
