@@ -89,6 +89,7 @@ export default () => {
 
   const postsList = document.createElement('section');
   postsList.classList.add('section-posts');
+  postsList.classList.add('section-posts');
   const showPosts = (post) => {
     console.log(post);
     const feed = `

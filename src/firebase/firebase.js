@@ -1,6 +1,6 @@
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut,
+  signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut, onAuthStateChanged,
 } from 'firebase/auth';
 
 import {
@@ -15,7 +15,7 @@ import {
 const auth = getAuth(app);
 
 const isUserLoggedIn = () => new Promise((resolve) => {
-  auth.onAuthStateChanged((user) => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
       resolve(true);
     } else {
@@ -143,5 +143,5 @@ const isPostOwner = async (user) => {
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
   isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
-  deletePost, isPostOwner,
+  deletePost, isPostOwner, onAuthStateChanged,
 };
