@@ -1,6 +1,12 @@
-import { async } from "regenerator-runtime";
-import { logOut, createPost, listAllPosts, editPost, deletePost, auth, isPostOwner } from "../../firebase/firebase";
-import "./feed.css";
+import {
+  logOut,
+  createPost,
+  listAllPosts,
+  deletePost,
+  auth,
+  isPostOwner,
+} from '../../firebase/firebase';
+import './feed.css';
 import profileIcon from '../../images/profile-icon.svg';
 import signoutIcon from '../../images/signout-icon.svg';
 import feedIcon from '../../images/feed-icon.svg';
@@ -81,12 +87,10 @@ export default () => {
     }
   });
 
-
-  // criar função showPosts e ela recebe o conteudo de allPosts
   const postsList = document.createElement('section');
-  postsList.classList.add('section-posts')
+  postsList.classList.add('section-posts');
   const showPosts = (post) => {
-    console.log(post)
+    console.log(post);
     const feed = `
     <div class="post-container">
       <div class="post-header">Publicado por ${post.user}</div>
@@ -115,42 +119,33 @@ export default () => {
     const btnDelete = postsList.querySelector('.delete-btn');
 
     isPostOwner(auth.currentUser)
-    .then(() => {
-      btnEdit.style.display = 'block';
-      btnDelete.style.display = 'block';
-    })
-    .catch((error) => {
-      console.log(error.message)
-    })
-
-    btnEdit.addEventListener('click', async (event) => {
-      const post = containerFeed.querySelector("#user-text-area");
-      const postInput = post.value;
-      const id = event.target.id;
-      await editPost(id, postInput);
-    })
+      .then(() => {
+        btnEdit.style.display = 'block';
+        btnDelete.style.display = 'block';
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
 
     btnDelete.addEventListener('click', async (event) => {
-      console.log(event.target)
-      const isItToDelete = confirm('Deseja mesmo excluir o post?');
+      console.log(event.target);
+      const isItToDelete = window.confirm('Deseja mesmo excluir o post?');
       if (isItToDelete) {
         const id = event.target.id;
         await deletePost(id);
         listAllPosts().then((posts) => {
-          postsList.innerHTML = "";
+          postsList.innerHTML = '';
           posts.forEach((publish) => {
             showPosts(publish);
           });
         });
       }
-    })
-
+    });
   };
 
-
-  btnPublish.addEventListener("click", async () => {
-    console.log("chamei o click");
-    const post = containerFeed.querySelector("#user-text-area");
+  btnPublish.addEventListener('click', async () => {
+    console.log('chamei o click');
+    const post = containerFeed.querySelector('#user-text-area');
     const postInput = post.value;
     if (postInput.length > 0) {
       await createPost(postInput);
