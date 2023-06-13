@@ -88,7 +88,7 @@ form .btn-entrar{
 form .btn-entrar:hover{
     background-color: var(--secondColor);
     color: var(--white);
-    cursor: url('./images/cursor.svg'), auto;
+    cursor: pointer;
     transition: .2s;
 }
 
@@ -110,7 +110,7 @@ form .btn-entrar:hover{
 }
 
 .login-icons img:hover{
-    cursor: url('./images/cursor.svg'), auto;
+    cursor: pointer;
 }
 
 .form-login .dont-have-an-account{

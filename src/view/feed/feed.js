@@ -57,6 +57,8 @@ export default () => {
   const btnLogOut = containerFeed.querySelector('.btn-logout');
   const imgHamburgerMenu = containerFeed.querySelector('.hamburger-menu');
   const btnPublish = containerFeed.querySelector('.btn-publish');
+  const widthScreen = window.screen.width;
+  const MenuNav = containerFeed.querySelector('.menu-nav');
 
   btnLogOut.addEventListener('click', async () => {
     try {
@@ -71,10 +73,13 @@ export default () => {
     const itensMenu = containerFeed.querySelector('.menu-nav');
     if (itensMenu.style.display === 'none') {
       itensMenu.style.display = 'block';
+    } else if (widthScreen >= '992px') {
+      MenuNav.style.display = 'block';
     } else {
       itensMenu.style.display = 'none';
     }
   });
+
 
   // criar função showPosts e ela recebe o conteudo de allPosts
   const postsList = document.createElement('section');
