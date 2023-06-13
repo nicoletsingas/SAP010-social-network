@@ -1,4 +1,5 @@
-import { logOut, createPost, listAllPosts } from "../../firebase/firebase";
+import { async } from "regenerator-runtime";
+import { logOut, createPost, listAllPosts, editPost, deletePost } from "../../firebase/firebase";
 import "./feed.css";
 
 export default () => {
@@ -61,6 +62,7 @@ export default () => {
   // criar função showPosts e ela recebe o conteudo de allPosts
   const postsList = document.createElement("section");
   const showPosts = (post) => {
+    console.log(post)
     const feed = `
     <div class="post-container">
       <div class="post-header">Publicado por ${post.user}</div>
@@ -74,17 +76,44 @@ export default () => {
       </div>
       <div class="post-actions">
         <div class="edit-btn">
-          <img src="images/edit-icon.svg" alt="Editar">
+          <img id="${post.docRef}" src="images/edit-icon.svg" alt="Editar">
         </div>
         <div class="delete-btn">
-          <img src="images/delete-icon.svg" alt="Excluir">
+          <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir">
         </div>
       </div>
     </div>
     `;
     postsList.innerHTML += feed;
     feedMain.appendChild(postsList);
+
+    const btnEdit = postsList.querySelector('.edit-btn');
+
+    btnEdit.addEventListener('click', async (event) => {
+      const post = containerFeed.querySelector("#user-text-area");
+      const postInput = post.value;
+      const id = event.target.id;
+      await editPost(id, postInput);
+    })
+
+    const btnDelete = postsList.querySelector('.delete-btn');
+
+    btnDelete.addEventListener('click', async (event) => {
+      const isItToDelete = confirm('Deseja mesmo excluir o post?');
+      if(isItToDelete){
+        const id = event.target.id;
+        await deletePost(id);
+        listAllPosts().then((posts) => {
+          postsList.innerHTML = "";
+          posts.forEach((publish) => {
+            showPosts(publish);
+          });
+        });
+      }
+    })
+
   };
+
 
   btnPublish.addEventListener("click", async () => {
     console.log("chamei o click");

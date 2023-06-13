@@ -4,7 +4,7 @@ import {
 } from 'firebase/auth';
 
 import {
-  setDoc, doc, collection, serverTimestamp, getDocs, orderBy, query, updateDoc, deleteDoc
+  setDoc, doc, collection, serverTimestamp, getDocs, orderBy, query, updateDoc, deleteDoc, where
 } from 'firebase/firestore';
 
 import {
@@ -86,6 +86,7 @@ const createPost = async (textPost) => {
   };
   const docRef = doc(collection(db, 'posts'));
   await setDoc(docRef, post);
+  updateDoc(docRef,{docRef: docRef.id})
 };
 
 const listAllPosts = async () => {
@@ -100,14 +101,14 @@ const listAllPosts = async () => {
 };
 
 const editPost = async (id, textPost) => {
-  const refDoc = doc(db, "posts", `${id}`);
+  const refDoc = doc(db, 'posts', `${id}`);
   await updateDoc(refDoc, {
     content: textPost,
   });
 }
 
 const deletePost = async (id) => {
-  await deleteDoc(doc(db, "posts", `${id}`));
+  await deleteDoc(doc(db, 'posts', `${id}`));
 }
 
 export {
