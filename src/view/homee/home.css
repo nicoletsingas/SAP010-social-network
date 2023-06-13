@@ -45,7 +45,7 @@ img {
 }
 
 .btn:hover{
-    cursor: url('./images/cursor.svg'), auto;
+    cursor: pointer;
 }
 
 .signIn {
