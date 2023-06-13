@@ -21,7 +21,7 @@
     font-weight: 300;
 }
 
-.title-menu {
+.title-menu{
     display: flex;
     justify-content: center;
     width: 100%;
@@ -38,6 +38,7 @@
 
 .menu-nav{
     background-color: var(--bgColor);
+    box-shadow: 3px 0px 0px var(--thirdColor);
     display: block;
     position: fixed;
     top: 63px;
@@ -46,21 +47,30 @@
     width: 180px;
 }
 
-li {
+.li-sidebar-menu{
     margin-top: 20px;
-    padding: 10px;
+    padding: 10px 0px 10px 10px;
+    transition: .2s;
 }
 
-a {
+.li-sidebar-menu:hover{
+    background-color: var(--thirdColor);
+}
+
+a{
     align-items: center;
     color: var(--white);
     display: flex;
-    flex-direction: column;
     font-weight: 300;
-    justify-content: center;
     list-style: none;
     text-decoration: none;
     width: 100%;
+}
+
+.icons{
+    height: 30px;
+    margin-right: 20px;
+    width: 30px;
 }
 
 .container-input-post{

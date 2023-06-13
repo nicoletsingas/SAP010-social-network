@@ -12,11 +12,11 @@ export default () => {
     <div class="container">
         <h1 class="welcome">Bem-vindo(a) ao <br/>&lt;GAMEE&gt;!</h1>
         <nav>    
-            <a href="#login" class="color-welcome"><div class="btn signIn">Entrar</div></a>  
+          <a href="#login" class="color-welcome a-welcome"><div class="btn signIn">Entrar</div></a>  
         </nav>
         <p>ou</p>
-            <nav>
-            <a href="#register" class="letter-color"><div class="btn">Cadastrar</div></a>
+        <nav>
+          <a href="#register" class="letter-color a-welcome"><div class="btn">Cadastrar</div></a>
         </nav>
     </div>
     `;

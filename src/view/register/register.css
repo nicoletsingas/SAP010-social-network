@@ -1,19 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
-/* paleta de cores
-background #141627
-First Color #A75EFD
-Second color #6F69EF
-Third color #678bfc
-*/
-
-/*
-responsivo:
-celular: 600px pra baixo
-tablet: 600px ate 992px 
-desktop: 992px ate 1015px 
-TV: 1015px pra cima
-*/
-
 
 .container-register {
   align-items: center;
@@ -51,8 +36,8 @@ TV: 1015px pra cima
 }
 
 .register-form {
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: column;
   gap: 20px;
 }
@@ -185,6 +170,8 @@ TV: 1015px pra cima
 
 .register-form .have-an-account .login-account {
   font-size: 14px;
+  font-weight: 400;
+  color: var(--firstColor);
 }
 
 /* Responsive */
