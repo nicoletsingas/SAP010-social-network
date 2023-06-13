@@ -78,6 +78,7 @@ export default () => {
 
   // criar função showPosts e ela recebe o conteudo de allPosts
   const postsList = document.createElement('section');
+  postsList.classList.add('section-posts')
   const showPosts = (post) => {
     const feed = `
     <div class="post-container">
