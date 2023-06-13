@@ -3,8 +3,8 @@ import { logOut, createPost, listAllPosts, editPost, deletePost } from "../../fi
 import "./feed.css";
 
 export default () => {
-  const containerFeed = document.createElement("section");
-  containerFeed.classList.add("container-feed");
+  const containerFeed = document.createElement('section');
+  containerFeed.classList.add('container-feed');
   const templateFeed = `
     <header>
       <div class="header">
@@ -19,9 +19,24 @@ export default () => {
     <main class="main">
       <nav class="menu-nav">
         <ul>
-          <li><a href="#profile">Meu perfil</a></li>
-          <li><a href="#feed">Feed</a></li>
-          <li><a href="" class="btn-logout">Sair</a></li>
+          <li class="li-sidebar-menu"> 
+            <a href="#profile" class="itens-menu">
+              <img class="icons" src=${profileIcon} alt="profile icon">
+              <span>Meu perfil</span>
+            </a>
+          </li>
+          <li class="li-sidebar-menu"> 
+            <a href="#feed" class="itens-menu">
+              <img class="icons" src=${feedIcon} alt="feed icon">
+              <span>Feed</span>
+            </a> 
+          </li>
+          <li class="li-sidebar-menu"> 
+            <a href="" class="btn-logout" class="itens-menu">
+              <img class="icons" src=${signoutIcon} alt="signout icon">
+              <span>Sair</span>
+            </a> 
+          </li>
         </ul>
       </nav>
       <div class="feed">
@@ -36,31 +51,37 @@ export default () => {
     `;
   containerFeed.innerHTML = templateFeed;
 
-  const feedMain = containerFeed.querySelector(".feed");
-  const btnLogOut = containerFeed.querySelector(".btn-logout");
-  const imgHamburgerMenu = containerFeed.querySelector(".hamburger-menu");
-  const btnPublish = containerFeed.querySelector(".btn-publish");
+  const feedMain = containerFeed.querySelector('.feed');
+  const btnLogOut = containerFeed.querySelector('.btn-logout');
+  const imgHamburgerMenu = containerFeed.querySelector('.hamburger-menu');
+  const btnPublish = containerFeed.querySelector('.btn-publish');
+  const widthScreen = window.screen.width;
+  const MenuNav = containerFeed.querySelector('.menu-nav');
 
-  btnLogOut.addEventListener("click", async () => {
+  btnLogOut.addEventListener('click', async () => {
     try {
       await logOut();
-      window.location.href = "#home";
+      window.location.href = '#home';
     } catch (error) {
       console.log(error.message);
     }
   });
 
-  imgHamburgerMenu.addEventListener("click", () => {
-    const itensMenu = containerFeed.querySelector(".menu-nav");
-    if (itensMenu.style.display === "none") {
-      itensMenu.style.display = "block";
+  imgHamburgerMenu.addEventListener('click', () => {
+    const itensMenu = containerFeed.querySelector('.menu-nav');
+    if (itensMenu.style.display === 'none') {
+      itensMenu.style.display = 'block';
+    } else if (widthScreen >= '992px') {
+      MenuNav.style.display = 'block';
     } else {
-      itensMenu.style.display = "none";
+      itensMenu.style.display = 'none';
     }
   });
 
+
   // criar função showPosts e ela recebe o conteudo de allPosts
-  const postsList = document.createElement("section");
+  const postsList = document.createElement('section');
+  postsList.classList.add('section-posts')
   const showPosts = (post) => {
     console.log(post)
     const feed = `
@@ -121,15 +142,15 @@ export default () => {
     const postInput = post.value;
     if (postInput.length > 0) {
       await createPost(postInput);
-      post.value = "";
+      post.value = '';
       listAllPosts().then((posts) => {
-        postsList.innerHTML = "";
+        postsList.innerHTML = '';
         posts.forEach((publish) => {
           showPosts(publish);
         });
       });
     } else {
-      alert("Não pode publicar um post vazio!");
+      alert('Não pode publicar um post vazio!');
     }
   });
 

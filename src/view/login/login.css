@@ -74,6 +74,24 @@ input[type=password]{outline:none}
     margin-bottom: 10px;
 }
 
+form .btn-entrar{
+    color: var(--secondColor);
+    background-color: var(--white);
+    border-radius: 20px;
+    font-size: 18px;
+    height: 45px;
+    justify-content: center;
+    padding: 10px;
+    width: 140px;
+} 
+
+form .btn-entrar:hover{
+    background-color: var(--secondColor);
+    color: var(--white);
+    cursor: pointer;
+    transition: .2s;
+}
+
 .form-login p{
     margin-top: 20px;
     text-align: center;
@@ -92,31 +110,22 @@ input[type=password]{outline:none}
 }
 
 .login-icons img:hover{
-    cursor: url('./images/cursor.svg'), auto;
+    cursor: pointer;
 }
 
 .form-login .dont-have-an-account{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
     margin-top: 30px;
 }
 
-.form-login .dont-have-an-account, .create-account {
+.form-login .create-account{
     font-size: 14px;
-}
-
-form .btn-entrar{
-    color: var(--secondColor);
-    background-color: var(--white);
-    border-radius: 20px;
-    height: 45px;
-    padding: 10px;
-    width: 140px;
-}
-
-form .btn-entrar:hover{
-    background-color: var(--secondColor);
-    color: var(--white);
-    cursor: url('./images/cursor.svg'), auto;
-    transition: .4s;
+    font-weight: 400;
+    color: var(--firstColor);
+    width: 110px;
 }
 
 /* Responsive */
@@ -145,6 +154,7 @@ form .btn-entrar:hover{
     }
 
     .form-login{
+        align-items: center;
         background-color: var(--white);
         border-radius: 20px;
         display: flex;

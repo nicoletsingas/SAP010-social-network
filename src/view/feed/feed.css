@@ -1,4 +1,7 @@
 .container-feed{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     width: 100%; 
 }
 
@@ -6,7 +9,7 @@
     background-color: var(--secondColor);
     display: flex;
     padding: 17px 10px;
-    width: 100%;
+    width: 100vw;
 }
 
 .hamburger-menu .icon-menu{
@@ -21,7 +24,7 @@
     font-weight: 300;
 }
 
-.title-menu {
+.title-menu{
     display: flex;
     justify-content: center;
     width: 100%;
@@ -38,6 +41,7 @@
 
 .menu-nav{
     background-color: var(--bgColor);
+    box-shadow: 3px 0px 0px var(--thirdColor);
     display: block;
     position: fixed;
     top: 63px;
@@ -46,21 +50,36 @@
     width: 180px;
 }
 
-li {
-    margin-top: 20px;
+.li-sidebar-menu{
+    border-radius: 5px 0px 0px 5px;
+    margin: 20px 0px 0px 10px;
     padding: 10px;
+    transition: .2s;
 }
 
-a {
+.li-sidebar-menu:hover{
+    background-color: var(--thirdColor);
+}
+
+a{
     align-items: center;
     color: var(--white);
     display: flex;
-    flex-direction: column;
     font-weight: 300;
-    justify-content: center;
     list-style: none;
     text-decoration: none;
     width: 100%;
+}
+
+.icons{
+    height: 30px;
+    margin-right: 20px;
+    width: 30px;
+}
+
+.feed{
+    max-width: 800px;
+    width: 95%;
 }
 
 .container-input-post{
@@ -69,7 +88,7 @@ a {
     flex-direction: column;
     margin-top: 20px;
     padding: 10px;
-    width: 95%;
+    width: 100%;
 }
 
 .container-input-post, #user-text-area{
@@ -106,7 +125,6 @@ a {
 }
 
 .post-container {
-    width: 500px;
     height: 180px;
     background: #ECF0FF;
     border-radius: 10px;
@@ -114,12 +132,10 @@ a {
   }
 
   .post-header {
-    width: 500px;
     height: 40px;
     background: #6F69EF;
     border-radius: 10px 10px 0px 0px;
-    font-family: Lato;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
     text-align: center;
     color: #FFFFFF;
@@ -127,7 +143,6 @@ a {
   }
 
   .post-content {
-    width: 95%;
     height: 70px;
     background: #FFFFFF;
     border-radius: 10px;
@@ -154,4 +169,21 @@ a {
     width: 22px;
     height: 22px;
     margin-right: 5px;
+  }
+
+  @media screen and (min-width: 992px){
+    
+    .icon-menu{
+        display: none;
+    }
+
+    .menu-nav{
+        overflow: hidden;
+        transition: .2s;
+        width: 65px;
+    }
+
+    .menu-nav:hover{
+        width: 180px;
+    }
   }

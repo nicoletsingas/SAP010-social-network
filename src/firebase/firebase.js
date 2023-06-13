@@ -13,12 +13,15 @@ import {
 
 const auth = getAuth(app);
 
-const isUserLoggedIn = async (user) => {
-  if (user !== null) {
-    return true;
-  }
-  return false;
-};
+const isUserLoggedIn = () => new Promise((resolve) => {
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      resolve(true);
+    } else {
+      resolve(false);
+    }
+  });
+});
 
 const logIn = async (email, password) => {
   await signInWithEmailAndPassword(auth, email, password)

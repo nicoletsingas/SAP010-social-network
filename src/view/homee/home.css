@@ -1,4 +1,3 @@
-
 .container-main, .container {
     align-items: center;
     display: flex;
@@ -8,7 +7,6 @@
 
 .container{
     gap: 20px;
-    width: 320px;
 }
 
 .container-image-welcome {
@@ -47,7 +45,7 @@ img {
 }
 
 .btn:hover{
-    cursor: url('./images/cursor.svg'), auto;
+    cursor: pointer;
 }
 
 .signIn {
@@ -58,15 +56,17 @@ img {
     color: var(--secondColor);
 }
 
-a {
-    font-size: 18px;
+.a-welcome {
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
     padding: 5px;
     text-align: center;
     text-decoration: none;
-    width: 95px;
+    width: 300px;
 }
 
-nav a:hover {
+.a-welcome:hover {
     color: var(--firstColor);
 }
 
@@ -96,7 +96,6 @@ p {
     }
 
 }
-
 
 @media screen and (min-width: 992px) {
     
