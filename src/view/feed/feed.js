@@ -1,6 +1,9 @@
 import { async } from "regenerator-runtime";
-import { logOut, createPost, listAllPosts, editPost, deletePost } from "../../firebase/firebase";
+import { logOut, createPost, listAllPosts, editPost, deletePost, auth, isPostOwner } from "../../firebase/firebase";
 import "./feed.css";
+import profileIcon from '../../images/profile-icon.svg';
+import signoutIcon from '../../images/signout-icon.svg';
+import feedIcon from '../../images/feed-icon.svg';
 
 export default () => {
   const containerFeed = document.createElement('section');
@@ -96,10 +99,10 @@ export default () => {
         <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
       </div>
       <div class="post-actions">
-        <div class="edit-btn">
+        <div class="edit-btn" style="display: none;">
           <img id="${post.docRef}" src="images/edit-icon.svg" alt="Editar">
         </div>
-        <div class="delete-btn">
+        <div class="delete-btn" style="display: none;">
           <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir">
         </div>
       </div>
@@ -109,6 +112,16 @@ export default () => {
     feedMain.appendChild(postsList);
 
     const btnEdit = postsList.querySelector('.edit-btn');
+    const btnDelete = postsList.querySelector('.delete-btn');
+
+    isPostOwner(auth.currentUser)
+    .then(() => {
+      btnEdit.style.display = 'block';
+      btnDelete.style.display = 'block';
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
 
     btnEdit.addEventListener('click', async (event) => {
       const post = containerFeed.querySelector("#user-text-area");
@@ -117,11 +130,10 @@ export default () => {
       await editPost(id, postInput);
     })
 
-    const btnDelete = postsList.querySelector('.delete-btn');
-
     btnDelete.addEventListener('click', async (event) => {
+      console.log(event.target)
       const isItToDelete = confirm('Deseja mesmo excluir o post?');
-      if(isItToDelete){
+      if (isItToDelete) {
         const id = event.target.id;
         await deletePost(id);
         listAllPosts().then((posts) => {
@@ -159,5 +171,6 @@ export default () => {
       showPosts(post);
     });
   });
+
   return containerFeed;
 };
