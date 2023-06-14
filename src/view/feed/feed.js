@@ -51,7 +51,7 @@ export default () => {
       <nav class="menu-nav-desktop">
         <ul>
           <li class="li-sidebar-menu"> 
-            <a href="#profile" class="itens-menu">
+            <a href="#profile" class="my-profile itens-menu">
               <img class="icons profile-icon" src=${profileIcon} alt="profile icon">
               <span>Meu perfil</span>
             </a>
@@ -83,18 +83,27 @@ export default () => {
   containerFeed.innerHTML = templateFeed;
 
   const feedMain = containerFeed.querySelector('.feed');
-  const btnLogOut = containerFeed.querySelector('.btn-logout');
+  const btnLogOut = containerFeed.querySelectorAll('.btn-logout');
+  const myProfile = containerFeed.querySelectorAll('.my-profile');
   const imgHamburgerMenu = containerFeed.querySelector('.hamburger-menu');
   const btnPublish = containerFeed.querySelector('.btn-publish');
   const widthScreen = window.screen.width;
 
-  btnLogOut.addEventListener('click', async () => {
-    try {
-      await logOut();
-      window.location.href = '#home';
-    } catch (error) {
-      console.log(error.message);
-    }
+  btnLogOut.forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await logOut();
+        window.location.href = '#home';
+      } catch (error) {
+        console.log(error.message);
+      }
+    });
+  });
+
+  myProfile.forEach((btnProfile) => {
+    btnProfile.addEventListener('click', () =>{
+      window.location.href = '#profile';
+    });
   });
 
   imgHamburgerMenu.addEventListener('click', () => {
