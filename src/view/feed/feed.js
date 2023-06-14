@@ -104,11 +104,11 @@ export default () => {
         <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
       </div>
       <div class="post-actions">
-        <div class="edit-btn" style="display: none;">
-          <img id="${post.docRef}" src="images/edit-icon.svg" alt="Editar">
+        <div class="edit-btn p${post.id}" style="visibility: hidden;">
+          <img src="images/edit-icon.svg" alt="Editar">
         </div>
-        <div class="delete-btn" style="display: none;">
-          <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir">
+        <div class="delete-btn p${post.id}" style="visibility: hidden;">
+          <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir" class="delete">
         </div>
       </div>
     </div>
@@ -116,32 +116,38 @@ export default () => {
     postsList.innerHTML += feed;
     feedMain.appendChild(postsList);
 
-    const btnEdit = postsList.querySelector('.edit-btn');
-    const btnDelete = postsList.querySelector('.delete-btn');
+    const btnDelete = postsList.querySelectorAll('.delete');
 
     isPostOwner(auth.currentUser)
-      .then(() => {
-        btnEdit.style.display = 'block';
-        btnDelete.style.display = 'block';
+      .then((document) => {
+        const btn = postsList.querySelectorAll(`.p${document.id}`)
+        btn.forEach((item) => {
+          const a = Array.from(item.classList)
+          if(a.includes(`p${document.id}`)){
+            item.style.visibility = 'visible';
+          }
+        })
       })
       .catch((error) => {
         console.log(error.message);
       });
 
-    btnDelete.addEventListener('click', async (event) => {
-      console.log(event.target);
-      const isItToDelete = window.confirm('Deseja mesmo excluir o post?');
-      if (isItToDelete) {
-        const id = event.target.id;
-        await deletePost(id);
-        listAllPosts().then((posts) => {
-          postsList.innerHTML = '';
-          posts.forEach((publish) => {
-            showPosts(publish);
-          });
+      btnDelete.forEach(btn => {
+        btn.addEventListener('click', async (event) => {
+          console.log(event.target);
+          const isItToDelete = window.confirm('Deseja mesmo excluir o post?');
+          if (isItToDelete) {
+            const id = event.target.id;
+            await deletePost(id);
+            listAllPosts().then((posts) => {
+              postsList.innerHTML = '';
+              posts.forEach((publish) => {
+                showPosts(publish);
+              });
+            });
+          }
         });
-      }
-    });
+      })
   };
 
   btnPublish.addEventListener('click', async () => {
