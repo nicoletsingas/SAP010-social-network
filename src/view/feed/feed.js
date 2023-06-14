@@ -50,7 +50,7 @@ export default () => {
       </nav>
       <div class="feed">
         <div class="container-input-post">
-          <textarea name="" id="user-text-area" cols="5" rows="10" placeholder="O que está jogando?"></textarea>
+          <textarea name="" id="user-text-area" placeholder="O que está jogando?"></textarea>
           <div class="div-btn-publish">
             <button class="btn-publish">Publicar</button>
           </div>
