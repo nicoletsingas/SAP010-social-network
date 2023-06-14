@@ -95,7 +95,7 @@ export default () => {
     const feed = `
     <div class="post-container">
       <div class="post-header">Publicado por ${post.user}</div>
-      <div class="post-content">${post.content}</div>
+      <div class="post-content" contenteditable="false">${post.content}</div>
       <div class="post-info">
         <div class="post-likes">
          <img src="images/like-icon.svg" alt="Like">
@@ -105,7 +105,7 @@ export default () => {
       </div>
       <div class="post-actions">
         <div class="edit-btn p${post.id}" style="visibility: hidden;">
-          <img src="images/edit-icon.svg" alt="Editar">
+          <img src="images/edit-icon.svg" alt="Editar" class="edit">
         </div>
         <div class="delete-btn p${post.id}" style="visibility: hidden;">
           <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir" class="delete">
@@ -117,6 +117,7 @@ export default () => {
     feedMain.appendChild(postsList);
 
     const btnDelete = postsList.querySelectorAll('.delete');
+    const btnEdit = postsList.querySelectorAll('.edit');
 
     isPostOwner(auth.currentUser)
       .then((document) => {
@@ -132,9 +133,21 @@ export default () => {
         console.log(error.message);
       });
 
+    btnEdit.forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const divBtn = btn.parentNode;
+        const postActions = divBtn.parentNode;
+        const postContainer = postActions.parentNode;
+        for (const child of postContainer.children) {
+          if (child.classList.value === 'post-content') {
+            child.contentEditable = 'true';
+          }
+        }
+      });
+    });
+
     btnDelete.forEach((btn) => {
       btn.addEventListener('click', async (event) => {
-        console.log(event.target);
         const isItToDelete = window.confirm('Deseja mesmo excluir o post?');
         if (isItToDelete) {
           const id = event.target.id;
@@ -151,7 +164,6 @@ export default () => {
   };
 
   btnPublish.addEventListener('click', async () => {
-    console.log('chamei o click');
     const post = containerFeed.querySelector('#user-text-area');
     const postInput = post.value;
     if (postInput.length > 0) {
