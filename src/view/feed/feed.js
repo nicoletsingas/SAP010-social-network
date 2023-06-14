@@ -4,7 +4,6 @@ import {
   listAllPosts,
   deletePost,
   auth,
-  isPostOwner,
 } from '../../firebase/firebase';
 import './feed.css';
 import profileIcon from '../../images/profile-icon.svg';
@@ -91,7 +90,6 @@ export default () => {
   postsList.classList.add('section-posts');
   postsList.classList.add('section-posts');
   const showPosts = (post) => {
-    console.log(post);
     const feed = `
     <div class="post-container">
       <div class="post-header">Publicado por ${post.user}</div>
@@ -104,34 +102,29 @@ export default () => {
         <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
       </div>
       <div class="post-actions">
-        <div class="edit-btn p${post.id}" style="visibility: hidden;">
+        <div class="edit-btn p${post.id}" style="display: none;">
           <img src="images/edit-icon.svg" alt="Editar" class="edit">
         </div>
-        <div class="delete-btn p${post.id}" style="visibility: hidden;">
+        <div class="delete-btn p${post.id}" style="display: none;">
           <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir" class="delete">
         </div>
+        <button  class="a" style="display: none;">Salvar</button>
+        <button style="display: none;">Cancelar</button>
       </div>
     </div>
     `;
     postsList.innerHTML += feed;
     feedMain.appendChild(postsList);
 
+    const btns = postsList.querySelectorAll(`.p${post.id}`);
     const btnDelete = postsList.querySelectorAll('.delete');
     const btnEdit = postsList.querySelectorAll('.edit');
 
-    isPostOwner(auth.currentUser)
-      .then((document) => {
-        const btn = postsList.querySelectorAll(`.p${document.id}`);
-        btn.forEach((item) => {
-          const a = Array.from(item.classList);
-          if (a.includes(`p${document.id}`)) {
-            item.style.visibility = 'visible';
-          }
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
+    if (auth.currentUser.uid === post.id) {
+      btns.forEach((btn) => {
+        btn.style.display = 'block';
       });
+    }
 
     btnEdit.forEach((btn) => {
       btn.addEventListener('click', async () => {
@@ -140,6 +133,8 @@ export default () => {
         const postContainer = postActions.parentNode;
         const postContent = postContainer.querySelector('.post-content');
         postContent.contentEditable = 'true';
+        postContent.tabindex = '0';
+        postContent.focus();
       });
     });
 
