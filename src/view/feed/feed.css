@@ -95,7 +95,6 @@ a{
     border-radius: 10px;
     max-height: none;
     min-height: 150px;
-    
 } 
 
 #user-text-area{
@@ -107,6 +106,7 @@ a{
     resize: none;
     overflow:auto;
     word-wrap: break-word;
+    
 }
 
 #user-text-area::placeholder{
