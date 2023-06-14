@@ -93,15 +93,20 @@ a{
 
 .container-input-post, #user-text-area{
     border-radius: 10px;
+    max-height: none;
+    min-height: 150px;
 } 
 
 #user-text-area{
     border: 0px;
     font-size: 20px;
-    height: 100px;
     outline-color: var(--secondColor);
     padding: 10px 10px 0px;
     text-align: center;
+    resize: none;
+    overflow:auto;
+    word-wrap: break-word;
+    
 }
 
 #user-text-area::placeholder{
@@ -125,10 +130,12 @@ a{
 }
 
 .post-container {
-    height: 180px;
+    min-height: 180px;
     background: #ECF0FF;
     border-radius: 10px;
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
   }
 
   .post-header {
@@ -143,11 +150,16 @@ a{
   }
 
   .post-content {
-    height: 70px;
+    min-height: 70px;
+    max-height: none;
     background: #FFFFFF;
     border-radius: 10px;
     margin:10px;
-    padding: 5px;
+    padding: 10px;
+    overflow: auto;
+    word-wrap: break-word;
+    text-align: justify;
+    text-indent: 5px;
   }
   
   .post-actions {
