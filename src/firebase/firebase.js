@@ -28,7 +28,7 @@ const logIn = async (email, password) => {
   await signInWithEmailAndPassword(auth, email, password)
     .then(() => {
       console.log('logou o usuario');
-    }).then(() => isUserLoggedIn())
+    }).then(() => onAuthStateChanged())
     .catch((error) => console.log(error.message));
 };
 
