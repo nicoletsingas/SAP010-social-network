@@ -95,7 +95,7 @@ export default () => {
     const feed = `
     <div class="post-container">
       <div class="post-header">Publicado por ${post.user}</div>
-      <div class="post-content" contenteditable="false">${post.content}</div>
+      <div class="post-content">${post.content}</div>
       <div class="post-info">
         <div class="post-likes">
          <img src="images/like-icon.svg" alt="Like">
@@ -138,11 +138,8 @@ export default () => {
         const divBtn = btn.parentNode;
         const postActions = divBtn.parentNode;
         const postContainer = postActions.parentNode;
-        for (const child of postContainer.children) {
-          if (child.classList.value === 'post-content') {
-            child.contentEditable = 'true';
-          }
-        }
+        const postContent = postContainer.querySelector('.post-content');
+        postContent.contentEditable = 'true';
       });
     });
 
