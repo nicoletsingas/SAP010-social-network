@@ -120,34 +120,34 @@ export default () => {
 
     isPostOwner(auth.currentUser)
       .then((document) => {
-        const btn = postsList.querySelectorAll(`.p${document.id}`)
+        const btn = postsList.querySelectorAll(`.p${document.id}`);
         btn.forEach((item) => {
-          const a = Array.from(item.classList)
-          if(a.includes(`p${document.id}`)){
+          const a = Array.from(item.classList);
+          if (a.includes(`p${document.id}`)) {
             item.style.visibility = 'visible';
           }
-        })
+        });
       })
       .catch((error) => {
         console.log(error.message);
       });
 
-      btnDelete.forEach(btn => {
-        btn.addEventListener('click', async (event) => {
-          console.log(event.target);
-          const isItToDelete = window.confirm('Deseja mesmo excluir o post?');
-          if (isItToDelete) {
-            const id = event.target.id;
-            await deletePost(id);
-            listAllPosts().then((posts) => {
-              postsList.innerHTML = '';
-              posts.forEach((publish) => {
-                showPosts(publish);
-              });
+    btnDelete.forEach((btn) => {
+      btn.addEventListener('click', async (event) => {
+        console.log(event.target);
+        const isItToDelete = window.confirm('Deseja mesmo excluir o post?');
+        if (isItToDelete) {
+          const id = event.target.id;
+          await deletePost(id);
+          listAllPosts().then((posts) => {
+            postsList.innerHTML = '';
+            posts.forEach((publish) => {
+              showPosts(publish);
             });
-          }
-        });
-      })
+          });
+        }
+      });
+    });
   };
 
   btnPublish.addEventListener('click', async () => {
