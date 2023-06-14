@@ -48,6 +48,28 @@ export default () => {
           </li>
         </ul>
       </nav>
+      <nav class="menu-nav-desktop">
+        <ul>
+          <li class="li-sidebar-menu"> 
+            <a href="#profile" class="itens-menu">
+              <img class="icons" src=${profileIcon} alt="profile icon">
+              <span>Meu perfil</span>
+            </a>
+          </li>
+          <li class="li-sidebar-menu"> 
+            <a href="#feed" class="itens-menu">
+              <img class="icons" src=${feedIcon} alt="feed icon">
+              <span>Feed</span>
+            </a> 
+          </li>
+          <li class="li-sidebar-menu"> 
+            <a href="" class="btn-logout" class="itens-menu">
+              <img class="icons" src=${signoutIcon} alt="signout icon">
+              <span>Sair</span>
+            </a> 
+          </li>
+        </ul>
+      </nav>
       <div class="feed">
         <div class="container-input-post">
           <textarea name="" id="user-text-area" placeholder="O que está jogando?"></textarea>
@@ -65,7 +87,6 @@ export default () => {
   const imgHamburgerMenu = containerFeed.querySelector('.hamburger-menu');
   const btnPublish = containerFeed.querySelector('.btn-publish');
   const widthScreen = window.screen.width;
-  const MenuNav = containerFeed.querySelector('.menu-nav');
 
   btnLogOut.addEventListener('click', async () => {
     try {
@@ -81,7 +102,7 @@ export default () => {
     if (itensMenu.style.display === 'none') {
       itensMenu.style.display = 'block';
     } else if (widthScreen >= '992px') {
-      MenuNav.style.display = 'block';
+      itensMenu.style.display = 'none';
     } else {
       itensMenu.style.display = 'none';
     }

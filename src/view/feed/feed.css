@@ -31,23 +31,37 @@
 }
 
 .main{
-    align-items: center;
+    align-items: start;
     display: flex;
     justify-content: center;
     position: relative;
     width: 100%; 
-    max-width: 1200px;
+    overflow-y: auto; 
 }
 
-.menu-nav{
+::-webkit-scrollbar{
+    background-color: #33426dd5;
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: var(--thirdColor);
+    border-radius: 5px;
+}
+
+.menu-nav, .menu-nav-desktop{
     background-color: var(--bgColor);
     box-shadow: 3px 0px 0px var(--thirdColor);
     display: block;
+    height: 100%;
     position: fixed;
     top: 63px;
     left: 0;
-    bottom: 0;
     width: 180px;
+}
+
+.menu-nav-desktop{
+    display: none;
 }
 
 .li-sidebar-menu{
@@ -80,6 +94,7 @@ a{
 .feed{
     max-width: 800px;
     width: 95%;
+    padding: 20px 0px;
 }
 
 .container-input-post{
@@ -184,18 +199,20 @@ a{
   }
 
   @media screen and (min-width: 992px){
-    
-    .icon-menu{
+
+    .menu-nav, .icon-menu{
         display: none;
     }
 
-    .menu-nav{
+    .menu-nav-desktop{
+        display: block;
         overflow: hidden;
         transition: .2s;
         width: 65px;
     }
 
-    .menu-nav:hover{
+    .menu-nav-desktop:hover{
         width: 180px;
     }
+
   }
