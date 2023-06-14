@@ -91,6 +91,11 @@ a{
     width: 30px;
 }
 
+.profile-icon{
+    width: 35px;
+    height: 35px;
+}
+
 .feed{
     max-width: 800px;
     width: 95%;

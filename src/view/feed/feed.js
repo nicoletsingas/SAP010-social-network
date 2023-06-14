@@ -52,7 +52,7 @@ export default () => {
         <ul>
           <li class="li-sidebar-menu"> 
             <a href="#profile" class="itens-menu">
-              <img class="icons" src=${profileIcon} alt="profile icon">
+              <img class="icons profile-icon" src=${profileIcon} alt="profile icon">
               <span>Meu perfil</span>
             </a>
           </li>
