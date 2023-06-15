@@ -97,7 +97,7 @@ export default (user) => {
         console.log(error.message);
       }
     });
-  });
+  }); 
 
   myProfile.forEach((btnProfile) => {
     btnProfile.addEventListener('click', () =>{
