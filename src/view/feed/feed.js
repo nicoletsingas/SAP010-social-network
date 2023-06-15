@@ -2,16 +2,15 @@ import {
   logOut,
   createPost,
   listAllPosts,
+  editPost,
   deletePost,
-  auth,
-  isPostOwner,
 } from '../../firebase/firebase';
 import './feed.css';
 import profileIcon from '../../images/profile-icon.svg';
 import signoutIcon from '../../images/signout-icon.svg';
 import feedIcon from '../../images/feed-icon.svg';
 
-export default () => {
+export default (user) => {
   const containerFeed = document.createElement('section');
   containerFeed.classList.add('container-feed');
   const templateFeed = `
@@ -121,11 +120,10 @@ export default () => {
   postsList.classList.add('section-posts');
   postsList.classList.add('section-posts');
   const showPosts = (post) => {
-    console.log(post);
     const feed = `
     <div class="post-container">
       <div class="post-header">Publicado por ${post.user}</div>
-      <div class="post-content">${post.content}</div>
+      <textarea id="${post.docRef}" class="post-content" disabled>${post.content}</textarea>
       <div class="post-info">
         <div class="post-likes">
          <img src="images/like-icon.svg" alt="Like">
@@ -134,10 +132,10 @@ export default () => {
         <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
       </div>
       <div class="post-actions">
-        <div class="edit-btn p${post.id}" style="visibility: hidden;">
-          <img src="images/edit-icon.svg" alt="Editar">
+        <div class="edit-btn p${post.id}" style="display: none;">
+          <img src="images/edit-icon.svg" alt="Editar" class="edit">
         </div>
-        <div class="delete-btn p${post.id}" style="visibility: hidden;">
+        <div class="delete-btn p${post.id}" style="display: none;">
           <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir" class="delete">
         </div>
       </div>
@@ -146,25 +144,18 @@ export default () => {
     postsList.innerHTML += feed;
     feedMain.appendChild(postsList);
 
-    const btnDelete = postsList.querySelectorAll('.delete');
+    const btns = postsList.querySelectorAll(`.p${post.id}`);
+    const btnsDelete = postsList.querySelectorAll('.delete');
+    const btnsEdit = postsList.querySelectorAll('.edit');
 
-    isPostOwner(auth.currentUser)
-      .then((document) => {
-        const btn = postsList.querySelectorAll(`.p${document.id}`);
-        btn.forEach((item) => {
-          const a = Array.from(item.classList);
-          if (a.includes(`p${document.id}`)) {
-            item.style.visibility = 'visible';
-          }
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
+    if (user.uid === post.id) {
+      btns.forEach((btn) => {
+        btn.style.display = 'block';
       });
+    }
 
-    btnDelete.forEach((btn) => {
+    btnsDelete.forEach((btn) => {
       btn.addEventListener('click', async (event) => {
-        console.log(event.target);
         const isItToDelete = window.confirm('Deseja mesmo excluir o post?');
         if (isItToDelete) {
           const id = event.target.id;
@@ -178,10 +169,54 @@ export default () => {
         }
       });
     });
+
+    btnsEdit.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const divBtn = btn.parentNode;
+        const postActions = divBtn.parentNode;
+        const postContainer = postActions.parentNode;
+        const postContent = postContainer.querySelector('.post-content');
+        postContent.removeAttribute('disabled');
+        postContent.tabindex = '0';
+        postContent.focus();
+        const btnSave = document.createElement('button');
+        btnSave.classList.add('save-btn');
+        const salvar = document.createTextNode('Salvar');
+        btnSave.appendChild(salvar);
+        btnSave.textContent = 'Salvar';
+        const btnCancel = document.createElement('button');
+        btnCancel.classList.add('cancel-btn');
+        const cancelar = document.createTextNode('Cancelar');
+        btnCancel.appendChild(cancelar);
+        postActions.appendChild(btnSave);
+        postActions.appendChild(btnCancel);
+        const del = postActions.querySelector('.delete-btn');
+        const edt = postActions.querySelector('.edit-btn');
+        edt.style.display = 'none';
+        del.style.display = 'none';
+        const snapshot = postContent.value;
+        console.log(snapshot);
+        btnSave.addEventListener('click', async () => {
+          await editPost(postContent.id, postContent.value);
+          postContent.setAttribute('disabled', true);
+          postActions.removeChild(btnSave);
+          postActions.removeChild(btnCancel);
+          edt.style.display = 'block';
+          del.style.display = 'block';
+        });
+        btnCancel.addEventListener('click', async () => {
+          postContent.value = snapshot;
+          postContent.setAttribute('disabled', true);
+          postActions.removeChild(btnSave);
+          postActions.removeChild(btnCancel);
+          edt.style.display = 'block';
+          del.style.display = 'block';
+        });
+      });
+    });
   };
 
   btnPublish.addEventListener('click', async () => {
-    console.log('chamei o click');
     const post = containerFeed.querySelector('#user-text-area');
     const postInput = post.value;
     if (postInput.length > 0) {

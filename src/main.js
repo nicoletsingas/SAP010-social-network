@@ -14,21 +14,21 @@ const changeScreen = async () => {
   if (user) {
     switch (window.location.hash) {
       case '':
-        main.appendChild(feed());
+        main.appendChild(feed(auth.currentUser));
         break;
       case '#home':
         window.location.hash = '#feed';
-        main.appendChild(feed());
+        main.appendChild(feed(auth.currentUser));
         break;
       case '#feed':
-        main.appendChild(feed());
+        main.appendChild(feed(auth.currentUser));
         break;
       case '#profile':
         main.appendChild(profile());
         break;
       default:
         window.location.hash = '#feed';
-        main.appendChild(feed());
+        main.appendChild(feed(auth.currentUser));
     }
   } else {
     switch (window.location.hash) {
