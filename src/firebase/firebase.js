@@ -5,7 +5,7 @@ import {
 
 import {
   setDoc, doc, collection, serverTimestamp, getDocs, orderBy,
-  query, updateDoc, deleteDoc, where,  arrayUnion, arrayRemove, getDoc, increment,
+  query, updateDoc, deleteDoc, where, getDoc,
 } from 'firebase/firestore';
 
 import {
@@ -137,8 +137,8 @@ const likePost = async (postId, userId) => {
   await updateDoc(postRef, {
     likes,
     likeBy,
-  }); 
-  console.log("like no post");
+  });
+  console.log('like no post');
 };
 
 const dislikePost = async (postId, userId) => {
@@ -157,7 +157,7 @@ const dislikePost = async (postId, userId) => {
     likes,
     likeBy,
   });
-  console.log("dislike no post");
+  console.log('dislike no post');
 };
 
 export {

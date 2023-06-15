@@ -131,27 +131,27 @@ export default (user) => {
       });
     });
 
-      const btnLike = postsList.querySelectorAll('.like-icon');
-      btnLike.forEach((likeIcon) => {
-      likeIcon.addEventListener('click', async () => {
-        const postContainer = likeIcon.closest('.post-container');
+    const btnLike = postsList.querySelectorAll('.like-icon');
+    btnLike.forEach((atualLike) => {
+      atualLike.addEventListener('click', async () => {
+        const postContainer = atualLike.closest('.post-container');
         const postDocRef = postContainer.querySelector('.post-content').id;
         const allPosts = await listAllPosts();
-        const post = allPosts.find((p) => p.docRef === postDocRef);
-        if (!post) return;
-        let isLiked = post.likeBy && post.likeBy.includes(user.uid);
-        let count = post.likes || 0;
-        const likeCount = likeIcon.nextElementSibling;
+        const atualPost = allPosts.find((p) => p.docRef === postDocRef);
+        if (!atualPost) return;
+        let isLiked = atualPost.likeBy && atualPost.likeBy.includes(user.uid);
+        let count = atualPost.likes || 0;
+        const likeCount = atualLike.nextElementSibling;
         if (isLiked) {
-          likeIcon.src = likeIcon.dataset.unliked;
+          atualLike.src = atualLike.dataset.unliked;
           count -= 1;
-          await dislikePost(post.docRef, user.uid);
-          likeIcon.classList.remove('like-icon-colorful');
+          await dislikePost(atualPost.docRef, user.uid);
+          atualLike.classList.remove('like-icon-colorful');
         } else {
-          likeIcon.src = likeIcon.dataset.liked;
+          atualLike.src = atualLike.dataset.liked;
           count += 1;
-          await likePost(post.docRef, user.uid);
-          likeIcon.classList.add('like-icon-colorful');
+          await likePost(atualPost.docRef, user.uid);
+          atualLike.classList.add('like-icon-colorful');
         }
         likeCount.textContent = count;
         isLiked = !isLiked;
