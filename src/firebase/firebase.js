@@ -97,7 +97,6 @@ const createPost = async (textPost) => {
   const docRef = doc(collection(db, 'posts'));
   await setDoc(docRef, post);
   updateDoc(docRef, { docRef: docRef.id });
-  console.log(auth.currentUser);
 };
 
 const listAllPosts = async () => {
@@ -122,26 +121,8 @@ const deletePost = async (id) => {
   await deleteDoc(doc(db, 'posts', `${id}`));
 };
 
-const isPostOwner = async (user) => {
-  const ref = collection(db, 'posts');
-  const q = query(ref, where('id', '==', user.uid));
-  const querySnapshot = await getDocs(q);
-  return new Promise((resolve, reject) => {
-    querySnapshot.forEach((document) => {
-      if (user.uid === document.data().id) {
-        console.log(document.data().id);
-        console.log(true);
-        resolve(document.data());
-      } else {
-        console.log(false);
-        reject(new Error('a'));
-      }
-    });
-  });
-};
-
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
   isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
-  deletePost, isPostOwner, onAuthStateChanged,
+  deletePost, onAuthStateChanged,
 };
