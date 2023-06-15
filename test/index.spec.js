@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth';
 
 import {
-  setDoc, doc,
+  setDoc, doc, deleteDoc, updateDoc,
 } from 'firebase/firestore';
 
 import {
@@ -19,6 +19,8 @@ import {
   registerUserWithAnotherProvider,
   registerUser,
   isUserLoggedIn,
+  deletePost,
+  editPost,
 } from '../src/firebase/firebase.js';
 
 const mockAuth = {
@@ -110,3 +112,29 @@ describe('registerUser', () => {
     expect(doc).toHaveBeenCalled();
   });
 });
+
+describe('deletePost', () => {
+  it('Deveria deletar o post do usuario', () => {
+    deletePost();
+    expect(deleteDoc).toHaveBeenCalled();
+    expect(doc).toHaveBeenCalled();
+  });
+});
+
+describe('editPost', () => {
+  it('Deveria atualizar o post do usuario', () => {
+    editPost();
+    expect(updateDoc).toHaveBeenCalled();
+    expect(doc).toHaveBeenCalled();
+  });
+});
+/* describe('listAllPosts', () => {
+  it('Deveria listar todos os posts no feed', async () => {
+    const snapshot = getDocs();
+    await listAllPosts();
+    expect(collection).toHaveBeenCalled();
+    expect(orderBy).toHaveBeenCalled();
+    expect(query).toHaveBeenCalled();
+    expect(snapshot).toHaveBeenCalled();
+  });
+}); */
