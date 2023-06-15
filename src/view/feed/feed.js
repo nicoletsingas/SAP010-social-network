@@ -3,9 +3,13 @@ import {
   listAllPosts,
   editPost,
   deletePost,
+  likePost,
+  dislikePost,
 } from '../../firebase/firebase';
 import './feed.css';
 import header from '../header/header.js';
+import likeIcon from '../../images/like-icon.svg';
+import likeIconColorful from '../../images/like-icon-colorful.svg';
 
 export default (user) => {
   const container = document.createElement('div');
@@ -33,7 +37,7 @@ export default (user) => {
   const postsList = document.createElement('section');
 
   postsList.classList.add('section-posts');
-  postsList.classList.add('section-posts');
+
   const showPosts = (post) => {
     const feed = `
     <div class="post-container">
@@ -41,8 +45,8 @@ export default (user) => {
       <textarea id="${post.docRef}" class="post-content" disabled>${post.content}</textarea>
       <div class="post-info">
         <div class="post-likes">
-         <img src="images/like-icon.svg" alt="Like">
-        ${post.likes}
+          <img class="like-icon" src=${likeIcon} alt="Like" data-unliked=${likeIcon} data-liked=${likeIconColorful}>
+          <span class="like-count">${post.likes}</span>
         </div>
         <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
       </div>
@@ -96,13 +100,10 @@ export default (user) => {
         postContent.focus();
         const btnSave = document.createElement('button');
         btnSave.classList.add('save-btn');
-        const salvar = document.createTextNode('Salvar');
-        btnSave.appendChild(salvar);
         btnSave.textContent = 'Salvar';
         const btnCancel = document.createElement('button');
         btnCancel.classList.add('cancel-btn');
-        const cancelar = document.createTextNode('Cancelar');
-        btnCancel.appendChild(cancelar);
+        btnCancel.textContent = 'Cancelar';
         postActions.appendChild(btnSave);
         postActions.appendChild(btnCancel);
         const del = postActions.querySelector('.delete-btn');
@@ -127,6 +128,33 @@ export default (user) => {
           edt.style.display = 'block';
           del.style.display = 'block';
         });
+      });
+    });
+
+      const btnLike = postsList.querySelectorAll('.like-icon');
+      btnLike.forEach((likeIcon) => {
+      likeIcon.addEventListener('click', async () => {
+        const postContainer = likeIcon.closest('.post-container');
+        const postDocRef = postContainer.querySelector('.post-content').id;
+        const allPosts = await listAllPosts();
+        const post = allPosts.find((p) => p.docRef === postDocRef);
+        if (!post) return;
+        let isLiked = post.likeBy && post.likeBy.includes(user.uid);
+        let count = post.likes || 0;
+        const likeCount = likeIcon.nextElementSibling;
+        if (isLiked) {
+          likeIcon.src = likeIcon.dataset.unliked;
+          count -= 1;
+          await dislikePost(post.docRef, user.uid);
+          likeIcon.classList.remove('like-icon-colorful');
+        } else {
+          likeIcon.src = likeIcon.dataset.liked;
+          count += 1;
+          await likePost(post.docRef, user.uid);
+          likeIcon.classList.add('like-icon-colorful');
+        }
+        likeCount.textContent = count;
+        isLiked = !isLiked;
       });
     });
   };
