@@ -5,7 +5,7 @@ import {
 
 import {
   setDoc, doc, collection, serverTimestamp, getDocs, orderBy,
-  query, updateDoc, deleteDoc, where,
+  query, updateDoc, deleteDoc, where,  arrayUnion, arrayRemove, getDoc, increment,
 } from 'firebase/firestore';
 
 import {
@@ -92,6 +92,7 @@ const createPost = async (textPost) => {
     user: nameUser,
     content: textPost,
     likes: 0,
+    likeBy: [],
     dateTime: serverTimestamp(),
   };
   const docRef = doc(collection(db, 'posts'));
@@ -105,7 +106,7 @@ const listAllPosts = async () => {
   const q = query(ref, orderBy('dateTime', 'desc'));
   const snapshot = await getDocs(q);
   snapshot.forEach((document) => {
-    posts.push(document.data());
+    posts.push({ ...document.data(), docRef: document.id });
   });
   return posts;
 };
@@ -121,8 +122,46 @@ const deletePost = async (id) => {
   await deleteDoc(doc(db, 'posts', `${id}`));
 };
 
+const likePost = async (postId, userId) => {
+  const postRef = doc(db, 'posts', postId);
+  const postSnapshot = await getDoc(postRef);
+  const post = postSnapshot.data();
+
+  if (post.likeBy && post.likeBy.includes(userId)) {
+    return;
+  }
+
+  const likes = post.likes + 1;
+  const likeBy = post.likeBy ? [...post.likeBy, userId] : [userId];
+
+  await updateDoc(postRef, {
+    likes,
+    likeBy,
+  }); 
+  console.log("like no post");
+};
+
+const dislikePost = async (postId, userId) => {
+  const postRef = doc(db, 'posts', postId);
+  const postSnapshot = await getDoc(postRef);
+  const post = postSnapshot.data();
+
+  if (!post.likeBy || !post.likeBy.includes(userId)) {
+    return;
+  }
+
+  const likes = post.likes - 1;
+  const likeBy = post.likeBy.filter((id) => id !== userId);
+
+  await updateDoc(postRef, {
+    likes,
+    likeBy,
+  });
+  console.log("dislike no post");
+};
+
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
   isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
-  deletePost, onAuthStateChanged,
+  deletePost, onAuthStateChanged, likePost, dislikePost,
 };

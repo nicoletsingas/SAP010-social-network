@@ -133,8 +133,15 @@ a{
     cursor: pointer;
   }
   
+  .post-likes{
+    display: flex;
+    align-items: center;
+  }
+  
   .post-likes img {
     width: 22px;
     height: 22px;
+    margin-left: 15px;
     margin-right: 5px;
+    cursor: pointer;
   }
