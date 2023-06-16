@@ -46,13 +46,14 @@ const signInWithGitHub = async () => {
   await signInWithPopup(auth, provider);
 };
 
-const registerUserWithAnotherProvider = async (id, name, username, email) => {
+const registerUserWithAnotherProvider = async (id, name, username, email, photoURL) => {
   try {
     const userData = {
       id,
       name,
       username,
       email,
+      photoURL,
     };
     await setDoc(doc(db, 'users', `${email}`), userData);
     console.log('Usuário cadastrado com sucesso');

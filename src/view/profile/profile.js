@@ -14,8 +14,8 @@ export default () => {
         <span>Meu Perfil</span>
       </div>
       <form class="display-flex-column">
-        <input type="text" placeholder="Nome">
-        <input type="text" placeholder="User">
+        <input class="input-profile" type="text" placeholder="Nome">
+        <input class="input-profile" type="text" placeholder="User">
         <div class="btns">
           <button>Salvar</button>
           <button>Editar</button>

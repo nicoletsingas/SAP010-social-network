@@ -18,7 +18,7 @@
     margin: 10px;
 }
 
-input {
+.input-profile {
     background-color: var(--white);
     border: var(--white);
     border-radius: 10px;

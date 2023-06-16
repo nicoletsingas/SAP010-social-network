@@ -125,7 +125,8 @@ export default () => {
       const uid = auth.currentUser.uid;
       const name = auth.currentUser.displayName;
       const email = auth.currentUser.email;
-      await registerUserWithAnotherProvider(uid, name, name, email);
+      const photoURL = auth.currentUser.photoURL;
+      await registerUserWithAnotherProvider(uid, name, name, email, photoURL);
       if (auth.currentUser) {
         window.location.href = '#feed';
       }
@@ -140,7 +141,8 @@ export default () => {
       const uid = auth.currentUser.uid;
       const name = auth.currentUser.displayName;
       const email = auth.currentUser.email;
-      await registerUserWithAnotherProvider(uid, name, name, email);
+      const photoURL = auth.currentUser.photoURL;
+      await registerUserWithAnotherProvider(uid, name, name, email, photoURL);
       if (auth.currentUser) {
         window.location.href = '#feed';
       }
