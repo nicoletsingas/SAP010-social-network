@@ -22,13 +22,14 @@ export default (user) => {
     <main class="main">
       <div class="feed">
         <div class="container-input-post">
-          <textarea name="" id="user-text-area" placeholder="O que está jogando?"></textarea>
-          <div >
+          <div class="header-feed">
             <img src="${user.photoURL}" class="user-picture-feed" alt="user-picture">
-              <div class="div-btn-publish">
-                <button class="btn-publish">Publicar</button>
-              </div>
+            <span>${user.displayName}</span>
           </div>
+          <textarea id="user-text-area" placeholder="O que está jogando?"></textarea>
+          <div class="div-btn-publish">
+            <button class="btn-publish">Publicar</button>
+          </div>     
         </div>
       </div>
     </main>
@@ -49,7 +50,7 @@ export default (user) => {
       <div class="post-header">
         <img src="${post.photoURL}" class="user-picture" alt="user-picture">
         <span>${post.user}</span>
-        <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
+        <div class="post-date">${calculateTimeAgo(post.dateTime.toDate())}</div>
       </div>
       <textarea id="${post.docRef}" class="post-content" disabled>${post.content}</textarea>
       <div class="post-info">
@@ -189,6 +190,26 @@ export default (user) => {
       showPosts(post);
     });
   });
+
+  const calculateTimeAgo = (date) => {
+    const currentDate = new Date();
+    const timeDiff = currentDate.getTime() - date.getTime();
+  
+    const seconds = Math.floor(timeDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+  
+    if (days > 0) {
+      return `${days} dia${days === 1 ? '' : 's'} atrás`;
+    } else if (hours > 0) {
+      return `${hours} hora${hours === 1 ? '' : 's'} atrás`;
+    } else if (minutes > 0) {
+      return `${minutes} minuto${minutes === 1 ? '' : 's'} atrás`;
+    } else {
+      return `${seconds} segundo${seconds === 1 ? '' : 's'} atrás`;
+    }
+  };
 
   return containerFeed;
 };
