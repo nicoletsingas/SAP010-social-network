@@ -3,8 +3,9 @@ import profileIcon from '../../images/profile-icon-gradient.svg';
 import header from '../header/header.js';
 
 export default () => {
-  const container = document.createElement('section');
-  container.appendChild(header());
+  const headerTag = document.getElementById('header-content');
+  headerTag.appendChild(header());
+
   const containerProfile = document.createElement('section');
   containerProfile.classList.add('container-profile');
   const templateProfile = `
@@ -26,6 +27,5 @@ export default () => {
     `;
   containerProfile.innerHTML = templateProfile;
 
-  container.appendChild(containerProfile);
-  return container;
+  return containerProfile;
 };

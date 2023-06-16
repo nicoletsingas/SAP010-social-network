@@ -21,7 +21,7 @@ export default () => {
     </header>
     <section class="menu">
       <nav class="menu-nav">
-        <ul>
+        <ul class="all-itens-menu-mobile">
           <li class="li-sidebar-menu"> 
             <a href="#profile" class="itens-menu">
                 <img class="icons" src=${profileIcon} alt="profile icon">
@@ -43,7 +43,7 @@ export default () => {
         </ul>
       </nav>
       <nav class="menu-nav-desktop">
-        <ul>
+        <ul class"ul-menu-desktop">
           <li class="li-sidebar-menu"> 
             <a href="#profile" class="itens-menu">
               <img class="icons profile-icon" src=${profileIcon} alt="profile icon">
@@ -70,7 +70,7 @@ export default () => {
 
   const btnLogOut = containerHeaderMenu.querySelectorAll('.btn-logout');
   const imgHamburgerMenu = containerHeaderMenu.querySelector('.hamburger-menu');
-  const widthScreen = window.screen.width;
+  const menuDesktop = containerHeaderMenu.querySelector('.menu-nav-desktop');
 
   btnLogOut.forEach((btn) => {
     btn.addEventListener('click', async () => {
@@ -87,12 +87,22 @@ export default () => {
     const itensMenu = containerHeaderMenu.querySelector('.menu-nav');
     if (itensMenu.style.display === 'none') {
       itensMenu.style.display = 'block';
-    } else if (widthScreen >= '992px') {
-      itensMenu.style.display = 'none';
     } else {
       itensMenu.style.display = 'none';
     }
   });
+
+  menuDesktop.addEventListener('mouseenter', () => {
+    menuDesktop.style.width = '180px';
+  })
+
+  menuDesktop.addEventListener('mouseleave', () => {
+    menuDesktop.style.width = '70px';
+  })
+
+  menuDesktop.addEventListener('click', () => {
+    menuDesktop.style.width = '70px';
+  })
 
   return containerHeaderMenu;
 };

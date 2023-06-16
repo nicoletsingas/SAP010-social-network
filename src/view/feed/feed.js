@@ -15,8 +15,8 @@ import likeIconColorful from '../../images/like-icon-colorful.svg';
 import profileIcon from '../../images/profile-icon.svg';
 
 export default (user) => {
-  const container = document.createElement('div');
-  container.appendChild(header());
+  const headerTag = document.getElementById('header-content');
+  headerTag.appendChild(header());
 
   const containerFeed = document.createElement('section');
   containerFeed.classList.add('container-feed');
@@ -33,7 +33,6 @@ export default (user) => {
     </main>
     `;
   containerFeed.innerHTML = templateFeed;
-  container.appendChild(containerFeed);
 
   const feedMain = containerFeed.querySelector('.feed');
   const btnPublish = containerFeed.querySelector('.btn-publish');
@@ -190,5 +189,5 @@ export default (user) => {
     });
   });
 
-  return container;
+  return containerFeed;
 };

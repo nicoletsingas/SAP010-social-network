@@ -2,6 +2,7 @@
     background-color: var(--secondColor);
     display: flex;
     padding: 17px 10px;
+    position: fixed;
     width: 100vw;
 }
 
@@ -36,6 +37,10 @@
     width: 180px;
 }
 
+.menu-nav, .menu-nav-desktop{
+    margin-top: 63px;
+}
+
 .menu-nav-desktop{
     display: none;
 }
@@ -64,19 +69,31 @@
 
 @media screen and (min-width: 992px){
 
-    .menu-nav, .icon-menu{
+    nav.menu-nav{
+        display: none;
+        width: 0px;
+    }
+    
+    .hamburger-menu{
         display: none;
     }
 
-    .menu-nav-desktop{
-        display: block;
+    nav.menu-nav .all-itens-menu-mobile{
+        display: none;
         overflow: hidden;
-        transition: .2s;
-        width: 65px;
     }
 
-    .menu-nav-desktop:hover{
-        width: 180px;
+    .menu-nav-desktop {
+        display: block;
+    }
+
+    .menu-nav-desktop {
+        overflow: hidden;
+        width: 70px;
+    }
+
+    .menu-nav-desktop .itens-menu{
+        overflow: hidden;
     }
 
   }
