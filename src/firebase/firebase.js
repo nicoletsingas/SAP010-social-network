@@ -71,6 +71,7 @@ const registerUser = async (name, username, email, password) => {
       name,
       username,
       email,
+      photoURL:'https://firebasestorage.googleapis.com/v0/b/social-network-237a8.appspot.com/o/profilePicture%2Fprofile-icon.svg?alt=media&token=d028bb21-8bcd-4272-b02f-a0a057e3c2e9',
     };
     await setDoc(doc(db, 'users', `${email}`), userData);
     console.log('Usuário cadastrado com sucesso');
