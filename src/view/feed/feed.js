@@ -6,13 +6,11 @@ import {
   likePost,
   dislikePost,
   checkLikedPosts,
-  isUserLoggedIn,
 } from '../../firebase/firebase';
 import './feed.css';
 import header from '../header/header.js';
 import likeIcon from '../../images/like-icon.svg';
 import likeIconColorful from '../../images/like-icon-colorful.svg';
-import profileIcon from '../../images/profile-icon.svg';
 
 export default (user) => {
   const container = document.createElement('div');
