@@ -78,6 +78,15 @@ describe('logIn', () => {
     await logIn(email, password);
     expect(signInWithEmailAndPassword).toHaveBeenCalledWith(auth, email, password);
   });
+
+  it('Deveria mostrar um erro e falhar ao logar o usuario', async () => {
+    signInWithEmailAndPassword.mockRejectedValueOnce(new Error('Erro ao logar usuário'));
+    try {
+      await logIn();
+    } catch (e) {
+      expect(e.message).toEqual('Erro ao logar usuário');
+    }
+  });
 });
 
 describe('logOut', () => {
@@ -108,7 +117,7 @@ describe('registerUser', () => {
     const user = mockAuth.currentUser;
     await registerUser(user.displayName, user.displayName, user.email, user.password);
     expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(auth, user.email, user.password);
-    expect(setDoc).toHaveBeenCalled();
+    expect(setDoc).toHaveBeenCalledTimes(2);
     expect(doc).toHaveBeenCalled();
   });
 });

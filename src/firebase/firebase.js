@@ -29,7 +29,10 @@ const logIn = async (email, password) => {
     .then(() => {
       console.log('logou o usuario');
     }).then(() => onAuthStateChanged())
-    .catch((error) => console.log(error.message));
+    .catch((error) => {
+      console.log('Erro ao logar usuário', error.message);
+      throw error;
+    });
 };
 
 const logOut = async () => {
@@ -71,10 +74,9 @@ const registerUser = async (name, username, email, password) => {
       name,
       username,
       email,
-      photoURL:'https://firebasestorage.googleapis.com/v0/b/social-network-237a8.appspot.com/o/profilePicture%2Fprofile-icon.svg?alt=media&token=d028bb21-8bcd-4272-b02f-a0a057e3c2e9',
+      photoURL: 'https://firebasestorage.googleapis.com/v0/b/social-network-237a8.appspot.com/o/profilePicture%2Fprofile-icon.svg?alt=media&token=d028bb21-8bcd-4272-b02f-a0a057e3c2e9',
     };
     await setDoc(doc(db, 'users', `${email}`), userData);
-    console.log('Usuário cadastrado com sucesso');
   } catch (error) {
     console.log('Erro ao cadastrar usuário:', error.message);
   }
