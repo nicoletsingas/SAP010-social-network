@@ -81,16 +81,19 @@ const registerUser = async (name, username, email, password) => {
 
 const createPost = async (textPost) => {
   const uid = auth.currentUser.uid;
+  let photo = '';
   let nameUser = '';
   const docRefUser = collection(db, 'users');
   const q = query(docRefUser, where('id', '==', uid));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((document) => {
     nameUser = document.data().username;
+    photo = document.data().photoURL;
   });
   const post = {
     id: uid,
     user: nameUser,
+    photoURL: photo,
     content: textPost,
     likes: 0,
     likeBy: [],

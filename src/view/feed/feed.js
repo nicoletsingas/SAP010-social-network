@@ -42,10 +42,11 @@ export default (user) => {
   const showPosts = async (post) => {
     const likedPost = await checkLikedPosts(post.docRef, user.uid);
     const likeIconSrc = likedPost ? likeIconColorful : likeIcon;
+    
     const feed = `
     <div class="post-container">
       <div class="post-header">
-        <img src="${user.photoURL}" class="user-picture" alt="user-picture">
+        <img src="${post.photoURL}" class="user-picture" alt="user-picture">
         <span>Publicado por ${post.user}</span>
       </div>
       <textarea id="${post.docRef}" class="post-content" disabled>${post.content}</textarea>
