@@ -178,8 +178,28 @@ const checkLikedPosts = async (postId, userId) => {
   return false;
 };
 
+const getUser = async () => {
+  const uid = auth.currentUser.uid;
+  const docRefUser = collection(db, 'users');
+  const q = query(docRefUser, where('id', '==', uid));
+  const querySnapshot = await getDocs(q);
+  let user = null;
+  querySnapshot.forEach((userColletion) => {
+    user = userColletion.data();
+  });
+  return user;
+}
+
+const editProfile = async (id, nameUser, nickName) => {
+  const refDoc = doc(db, 'users', `${id}`);
+  await updateDoc(refDoc, {
+    name: nameUser,
+    username: nickName,
+  });
+};
+
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
   isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
-  deletePost, onAuthStateChanged, likePost, dislikePost, checkLikedPosts,
+  deletePost, onAuthStateChanged, likePost, dislikePost, checkLikedPosts, getUser, editProfile,
 };

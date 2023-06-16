@@ -1,8 +1,9 @@
 import './profile.css';
 import profileIcon from '../../images/profile-icon-gradient.svg';
 import header from '../header/header.js';
+import { getUser, editProfile } from '../../firebase/firebase';
 
-export default () => {
+export default (user) => {
   const headerTag = document.getElementById('header-content');
   headerTag.appendChild(header());
 
@@ -15,11 +16,12 @@ export default () => {
         <span>Meu Perfil</span>
       </div>
       <form class="display-flex-column">
-        <input class="input-profile" type="text" placeholder="Nome">
-        <input class="input-profile" type="text" placeholder="User">
+        <input class="input-profile input-name" type="text" disabled>
+        <input class="input-profile input-user-name" type="text" disabled>
         <div class="btns">
-          <button>Salvar</button>
-          <button>Editar</button>
+          <button id="${user.email}" class="save-profile-button ocult">Salvar</button>
+          <button class="cancel-profile-button ocult">Cancelar</button>
+          <button class="edit-profile-button">Editar</button>
         </div>
       </form>
     </section>
@@ -27,5 +29,46 @@ export default () => {
     `;
   containerProfile.innerHTML = templateProfile;
 
+  const name = containerProfile.querySelector('.input-name');
+  const inputUserName = containerProfile.querySelector('.input-user-name');
+  const editProfileButton = containerProfile.querySelector('.edit-profile-button');
+  const saveProfileButton = containerProfile.querySelector('.save-profile-button');
+  const cancelProfileButton = containerProfile.querySelector('.cancel-profile-button');
+  const inputs = containerProfile.querySelectorAll('.input-profile');
+  
+  getUser().then((user) => {
+    name.value = user.name;
+    inputUserName.value = user.username;
+  });
+
+  editProfileButton.addEventListener('click', () => { 
+    inputs.forEach((input) => {
+      input.removeAttribute('disabled');
+    });
+    editProfileButton.style.display = 'none';
+    saveProfileButton.style.display = 'block';
+    cancelProfileButton.style.display = 'block';
+  });
+
+  cancelProfileButton.addEventListener('click', () => {
+    inputs.forEach((input) => {
+      input.setAttribute('disabled', true);
+    });
+    editProfileButton.style.display = 'block';
+    saveProfileButton.style.display = 'none';
+    cancelProfileButton.style.display = 'none';
+    getUser().then((user) => {
+      name.value = user.name;
+      inputUserName.value = user.username;
+    });
+  });
+
+  saveProfileButton.addEventListener('click', (collection) => {
+    const updatedName = name.value;
+    const updatedNickName = inputUserName.value;
+    editProfile(collection.target.id, updatedName, updatedNickName)
+  });
+
   return containerProfile;
+
 };

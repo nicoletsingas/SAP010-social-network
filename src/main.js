@@ -24,7 +24,7 @@ const changeScreen = async () => {
         main.appendChild(feed(auth.currentUser));
         break;
       case '#profile':
-        main.appendChild(profile());
+        main.appendChild(profile(auth.currentUser));
         break;
       default:
         window.location.hash = '#feed';
