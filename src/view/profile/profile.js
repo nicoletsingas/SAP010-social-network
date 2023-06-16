@@ -4,8 +4,9 @@ import header from '../header/header.js';
 import { getUser, editProfile } from '../../firebase/firebase';
 
 export default (user) => {
-  const headerTag = document.getElementById('header-content');
-  headerTag.appendChild(header());
+  const container = document.createElement('div');
+  container.classList.add('container-pai-profile')
+  container.appendChild(header());
 
   const containerProfile = document.createElement('section');
   containerProfile.classList.add('container-profile');
@@ -32,6 +33,7 @@ export default (user) => {
     <section class="posts-history"></section>
     `;
   containerProfile.innerHTML = templateProfile;
+  container.appendChild(containerProfile);
 
   const name = containerProfile.querySelector('.input-name');
   const inputUserName = containerProfile.querySelector('.input-user-name');
@@ -73,6 +75,6 @@ export default (user) => {
     editProfile(collection.target.id, updatedName, updatedNickName)
   });
 
-  return containerProfile;
+  return container;
 
 };

@@ -4,6 +4,7 @@
     padding: 17px 10px;
     position: fixed;
     width: 100vw;
+    z-index: 2;
 }
 
 .hamburger-menu .icon-menu{
@@ -85,15 +86,17 @@
 
     .menu-nav-desktop {
         display: block;
-    }
-
-    .menu-nav-desktop {
         overflow: hidden;
+        transition: .2s;
         width: 70px;
     }
 
     .menu-nav-desktop .itens-menu{
         overflow: hidden;
+    }
+
+    .menu-nav-desktop:hover{
+        width: 180px;
     }
 
   }
