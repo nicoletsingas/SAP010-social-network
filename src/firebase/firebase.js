@@ -86,15 +86,18 @@ const createPost = async (textPost) => {
   const uid = auth.currentUser.uid;
   let photo = '';
   let nameUser = '';
+  let name = '';
   const docRefUser = collection(db, 'users');
   const q = query(docRefUser, where('id', '==', uid));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((document) => {
+    name = document.data().name;
     nameUser = document.data().username;
     photo = document.data().photoURL;
   });
   const post = {
     id: uid,
+    nameUser: name,
     user: nameUser,
     photoURL: photo,
     content: textPost,
@@ -180,12 +183,12 @@ const checkLikedPosts = async (postId, userId) => {
 
 const getUser = async () => {
   const uid = auth.currentUser.uid;
-  const docRefUser = collection(db, 'users');
-  const q = query(docRefUser, where('id', '==', uid));
+  const docRef = collection(db, 'posts');
+  const q = query(docRef, where('id', '==', uid));
   const querySnapshot = await getDocs(q);
-  let user = null;
-  querySnapshot.forEach((userColletion) => {
-    user = userColletion.data();
+  let user = [];
+  querySnapshot.forEach((post) => {
+    user.push(post.data());
   });
   return user;
 }
@@ -198,8 +201,24 @@ const editProfile = async (id, nameUser, nickName) => {
   });
 };
 
+
+const changeNickNameAllPosts = async (nickName) => {
+  const uid = auth.currentUser.uid;
+  const ref = collection(db, 'posts');
+  const q = query(ref, where('id', '==', uid));
+  const snapshot = await getDocs(q);
+  snapshot.forEach(async (document) => {
+    const id = document.data().docRef;
+    const refDoc = doc(db, 'posts', `${id}`);
+    await updateDoc(refDoc, {
+      user: nickName,
+    });
+  });
+};
+
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
   isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
   deletePost, onAuthStateChanged, likePost, dislikePost, checkLikedPosts, getUser, editProfile,
+  changeNickNameAllPosts,
 };
