@@ -20,4 +20,5 @@
 body{
     background-color: var(--bgColor);
     height: 100%;
+    overflow-x: hidden;
 }
