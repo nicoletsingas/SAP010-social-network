@@ -6,11 +6,13 @@ import {
   likePost,
   dislikePost,
   checkLikedPosts,
+  isUserLoggedIn,
 } from '../../firebase/firebase';
 import './feed.css';
 import header from '../header/header.js';
 import likeIcon from '../../images/like-icon.svg';
 import likeIconColorful from '../../images/like-icon-colorful.svg';
+import profileIcon from '../../images/profile-icon.svg';
 
 export default (user) => {
   const container = document.createElement('div');
@@ -41,8 +43,9 @@ export default (user) => {
 
   const showPosts = async (post) => {
     const likedPost = await checkLikedPosts(post.docRef, user.uid);
+    // const pictureLogin = await isUserLoggedIn();
     const likeIconSrc = likedPost ? likeIconColorful : likeIcon;
-    
+    // const picture = pictureLogin ? post.photoURL : profileIcon;
     const feed = `
     <div class="post-container">
       <div class="post-header">
