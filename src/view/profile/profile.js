@@ -24,5 +24,5 @@ export default () => {
     </section>
     `;
   containerProfile.innerHTML = templateProfile;
-  return containerProfile
+  return containerProfile;
 };
