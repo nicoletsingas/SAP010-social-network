@@ -25,8 +25,11 @@ export default (user) => {
       <div class="feed">
         <div class="container-input-post">
           <textarea name="" id="user-text-area" placeholder="O que está jogando?"></textarea>
-          <div class="div-btn-publish">
-            <button class="btn-publish">Publicar</button>
+          <div >
+            <img src="${user.photoURL}" class="user-picture-feed" alt="user-picture">
+              <div class="div-btn-publish">
+                <button class="btn-publish">Publicar</button>
+              </div>
           </div>
         </div>
       </div>

@@ -72,6 +72,7 @@ a{
 .div-btn-publish{
     display: flex;
     justify-content: end;
+    align-items: center;
 }
 
 .btn-publish{
@@ -83,6 +84,14 @@ a{
     height: 40px;
     margin-top: 20px;
     width: 50%;
+}
+
+.user-picture-feed{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  float: left;
+  margin-top: 20px;
 }
 
 .post-container {
@@ -112,6 +121,8 @@ a{
     width: 33px;
     border-radius: 50%;
     vertical-align: middle;
+    margin-left: 5px;
+    margin-right: 10px;
     
   }
   .post-date{
