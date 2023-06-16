@@ -16,8 +16,12 @@ export default (user) => {
         <span>Meu Perfil</span>
       </div>
       <form class="display-flex-column">
-        <input class="input-profile input-name" type="text" disabled>
-        <input class="input-profile input-user-name" type="text" disabled>
+        <div class="input-label">
+          <label for="input-name-profile">Nome</label>
+          <input id="input-name-profile" class="input-profile input-name" type="text" disabled>
+          <label for="input-nickname-profile">Nickname</label>
+          <input id="input-nickname-profile" class="input-profile input-user-name" type="text" disabled>
+        </div>
         <div class="btns">
           <button id="${user.email}" class="save-profile-button ocult">Salvar</button>
           <button class="cancel-profile-button ocult">Cancelar</button>
