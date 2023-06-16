@@ -18,18 +18,31 @@
     margin: 10px;
 }
 
+.input-label{
+    align-items: start;
+    display: flex;
+    flex-direction: column;
+}
+
+.display-flex-column label {
+    color: var(--white);
+    font-size: 18px;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
 .input-profile {
     background-color: var(--white);
     border: var(--white);
     border-radius: 10px;
     color: rgba(167, 94, 253, 0.9);
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 300;
-    height: 56px;
+    height: 45px;
     margin: 10px;
     padding: 10px;
     text-align: center;
-    width: 273px;
+    width: 200px;
 }
 
 ::placeholder {
