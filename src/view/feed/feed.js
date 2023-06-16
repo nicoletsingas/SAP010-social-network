@@ -13,8 +13,9 @@ import likeIcon from '../../images/like-icon.svg';
 import likeIconColorful from '../../images/like-icon-colorful.svg';
 
 export default (user) => {
-  const headerTag = document.getElementById('header-content');
-  headerTag.appendChild(header());
+  const container = document.createElement('div');
+  container.classList.add('container-pai');
+  container.appendChild(header());
 
   const containerFeed = document.createElement('section');
   containerFeed.classList.add('container-feed');
@@ -34,6 +35,7 @@ export default (user) => {
     </main>
     `;
   containerFeed.innerHTML = templateFeed;
+  container.appendChild(containerFeed);
 
   const feedMain = containerFeed.querySelector('.feed');
   const btnPublish = containerFeed.querySelector('.btn-publish');
@@ -55,7 +57,7 @@ export default (user) => {
       <div class="post-info">
         <div class="post-likes">
         <img class="like-icon" src="${likeIconSrc}" alt="Like" data-unliked="${likeIcon}" data-liked="${likeIconColorful}">
-          <span class="like-count">${post.likes}  </span>
+          <span class="like-count">${post.likes}</span>
         </div>
       </div>
       <div class="post-actions">
@@ -190,5 +192,5 @@ export default (user) => {
     });
   });
 
-  return containerFeed;
+  return container;
 };

@@ -1,9 +1,13 @@
+.container-pai{
+  width: 100%;
+}
+
 .container-feed {
   align-items: center;
   display: flex;
   flex-direction: column;
   width: 100%;
-}
+} 
 
 .main {
   align-items: center;
