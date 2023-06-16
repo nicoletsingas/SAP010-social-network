@@ -44,7 +44,10 @@ export default (user) => {
     const likeIconSrc = likedPost ? likeIconColorful : likeIcon;
     const feed = `
     <div class="post-container">
-      <div class="post-header">Publicado por ${post.user}</div>
+      <div class="post-header">
+        <img src="${user.photoURL}" class="user-picture" alt="user-picture">
+        <span>Publicado por ${post.user}</span>
+      </div>
       <textarea id="${post.docRef}" class="post-content" disabled>${post.content}</textarea>
       <div class="post-info">
         <div class="post-likes">
