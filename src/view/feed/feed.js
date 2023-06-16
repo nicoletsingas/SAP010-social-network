@@ -43,22 +43,20 @@ export default (user) => {
 
   const showPosts = async (post) => {
     const likedPost = await checkLikedPosts(post.docRef, user.uid);
-    // const pictureLogin = await isUserLoggedIn();
     const likeIconSrc = likedPost ? likeIconColorful : likeIcon;
-    // const picture = pictureLogin ? post.photoURL : profileIcon;
     const feed = `
     <div class="post-container">
       <div class="post-header">
         <img src="${post.photoURL}" class="user-picture" alt="user-picture">
-        <span>Publicado por ${post.user}</span>
+        <span>${post.user}</span>
+        <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
       </div>
       <textarea id="${post.docRef}" class="post-content" disabled>${post.content}</textarea>
       <div class="post-info">
         <div class="post-likes">
         <img class="like-icon" src="${likeIconSrc}" alt="Like" data-unliked="${likeIcon}" data-liked="${likeIconColorful}">
-          <span class="like-count">${post.likes}</span>
+          <span class="like-count">${post.likes}  </span>
         </div>
-        <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
       </div>
       <div class="post-actions">
         <div class="edit-btn p${post.id}" style="display: none;">

@@ -98,22 +98,32 @@ a{
     height: 40px;
     background: #6F69EF;
     border-radius: 10px 10px 0px 0px;
-    font-size: 18px;
+    font-size: 1.2em;
     font-weight: 500;
-    text-align: center;
+    text-align:left;
     color: #FFFFFF;
+    padding-left: 10px;
     padding: 5px;
+    display: inline-block;
   }
 
   .user-picture{
     height: 33px;
     width: 33px;
     border-radius: 50%;
+    vertical-align: middle;
+    
+  }
+  .post-date{
+    font-size: 0.6em;
+    text-align: right;
+    margin-top: -20px;
+
   }
 
   .post-content {
-    min-height: 70px;
-    max-height: none;
+    min-height: 75px;
+    height: auto;
     background: #FFFFFF;
     border-radius: 10px;
     margin:10px;
@@ -122,6 +132,10 @@ a{
     word-wrap: break-word;
     text-align: justify;
     text-indent: 5px;
+    font-size: 1em;
+    resize: none;
+    color: black;
+    font-weight: 500;
   }
   
   .post-actions {
@@ -150,4 +164,8 @@ a{
     margin-left: 15px;
     margin-right: 5px;
     cursor: pointer;
+  }
+  .like-count{
+    font-size: 0.8em;
+    color: #616161;
   }
