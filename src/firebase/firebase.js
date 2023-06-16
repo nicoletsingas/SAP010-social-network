@@ -160,8 +160,19 @@ const dislikePost = async (postId, userId) => {
   console.log('dislike no post');
 };
 
+const checkLikedPosts = async (postId, userId) => {
+  const postRef = doc(db, 'posts', postId);
+  const postSnapshot = await getDoc(postRef);
+  const post = postSnapshot.data();
+
+  if (post.likeBy && post.likeBy.includes(userId)) {
+    return true;
+  }
+  return false;
+};
+
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
   isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
-  deletePost, onAuthStateChanged, likePost, dislikePost,
+  deletePost, onAuthStateChanged, likePost, dislikePost, checkLikedPosts,
 };
