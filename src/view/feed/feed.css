@@ -86,6 +86,14 @@ a {
   width: 50%;
 }
 
+.user-picture-feed {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  float: left;
+  margin-top: 20px;
+}
+
 .post-container {
   min-height: 180px;
   background: #ECF0FF;
@@ -113,6 +121,8 @@ a {
   width: 33px;
   border-radius: 50%;
   vertical-align: middle;
+  margin-left: 5px;
+  margin-right: 10px;
 
 }
 
@@ -120,7 +130,6 @@ a {
   font-size: 0.6em;
   text-align: right;
   margin-top: -20px;
-
 }
 
 .post-content {

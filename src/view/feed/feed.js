@@ -6,13 +6,11 @@ import {
   likePost,
   dislikePost,
   checkLikedPosts,
-  isUserLoggedIn,
 } from '../../firebase/firebase';
 import './feed.css';
 import header from '../header/header.js';
 import likeIcon from '../../images/like-icon.svg';
 import likeIconColorful from '../../images/like-icon-colorful.svg';
-import profileIcon from '../../images/profile-icon.svg';
 
 export default (user) => {
   const headerTag = document.getElementById('header-content');
@@ -25,8 +23,11 @@ export default (user) => {
       <div class="feed">
         <div class="container-input-post">
           <textarea name="" id="user-text-area" placeholder="O que está jogando?"></textarea>
-          <div class="div-btn-publish">
-            <button class="btn-publish">Publicar</button>
+          <div >
+            <img src="${user.photoURL}" class="user-picture-feed" alt="user-picture">
+              <div class="div-btn-publish">
+                <button class="btn-publish">Publicar</button>
+              </div>
           </div>
         </div>
       </div>
