@@ -6,9 +6,9 @@ import signoutIcon from '../../images/signout-icon.svg';
 import feedIcon from '../../images/feed-icon.svg';
 
 export default () => {
-    const containerHeaderMenu = document.createElement('section');
-    containerHeaderMenu.classList.add('containerHeaderMenu');
-    const templateHeaderMenu = `
+  const containerHeaderMenu = document.createElement('section');
+  containerHeaderMenu.classList.add('containerHeaderMenu');
+  const templateHeaderMenu = `
     <header>
         <div class="header">
         <picture class="hamburger-menu">
@@ -65,34 +65,34 @@ export default () => {
         </ul>
       </nav>
     </section>
-    `
-    containerHeaderMenu.innerHTML = templateHeaderMenu;
+    `;
+  containerHeaderMenu.innerHTML = templateHeaderMenu;
 
-    const btnLogOut = containerHeaderMenu.querySelectorAll('.btn-logout');
-    const imgHamburgerMenu = containerHeaderMenu.querySelector('.hamburger-menu');
-    const widthScreen = window.screen.width;
+  const btnLogOut = containerHeaderMenu.querySelectorAll('.btn-logout');
+  const imgHamburgerMenu = containerHeaderMenu.querySelector('.hamburger-menu');
+  const widthScreen = window.screen.width;
 
-    btnLogOut.forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        try {
-          await logOut();
-          window.location.href = '#home';
-        } catch (error) {
-          console.log(error.message);
-        }
-      });
-    });
-
-    imgHamburgerMenu.addEventListener('click', () => {
-      const itensMenu = containerHeaderMenu.querySelector('.menu-nav');
-      if (itensMenu.style.display === 'none') {
-        itensMenu.style.display = 'block';
-      } else if (widthScreen >= '992px') {
-        itensMenu.style.display = 'none';
-      } else {
-        itensMenu.style.display = 'none';
+  btnLogOut.forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await logOut();
+        window.location.href = '#home';
+      } catch (error) {
+        console.log(error.message);
       }
     });
+  });
 
-    return containerHeaderMenu;
+  imgHamburgerMenu.addEventListener('click', () => {
+    const itensMenu = containerHeaderMenu.querySelector('.menu-nav');
+    if (itensMenu.style.display === 'none') {
+      itensMenu.style.display = 'block';
+    } else if (widthScreen >= '992px') {
+      itensMenu.style.display = 'none';
+    } else {
+      itensMenu.style.display = 'none';
+    }
+  });
+
+  return containerHeaderMenu;
 };

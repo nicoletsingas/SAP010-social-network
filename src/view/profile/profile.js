@@ -25,6 +25,7 @@ export default () => {
     <section class="posts-history"></section>
     `;
   containerProfile.innerHTML = templateProfile;
+
   container.appendChild(containerProfile);
   return container;
 };
