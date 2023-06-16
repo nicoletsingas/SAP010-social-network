@@ -5,6 +5,7 @@ import {
   deletePost,
   likePost,
   dislikePost,
+  checkLikedPosts,
 } from '../../firebase/firebase';
 import './feed.css';
 import header from '../header/header.js';
@@ -38,14 +39,16 @@ export default (user) => {
 
   postsList.classList.add('section-posts');
 
-  const showPosts = (post) => {
+  const showPosts = async (post) => {
+    const likedPost = await checkLikedPosts(post.docRef, user.uid);
+    const likeIconSrc = likedPost ? likeIconColorful : likeIcon;
     const feed = `
     <div class="post-container">
       <div class="post-header">Publicado por ${post.user}</div>
       <textarea id="${post.docRef}" class="post-content" disabled>${post.content}</textarea>
       <div class="post-info">
         <div class="post-likes">
-          <img class="like-icon" src=${likeIcon} alt="Like" data-unliked=${likeIcon} data-liked=${likeIconColorful}>
+        <img class="like-icon" src="${likeIconSrc}" alt="Like" data-unliked="${likeIcon}" data-liked="${likeIconColorful}">
           <span class="like-count">${post.likes}</span>
         </div>
         <div class="post-date">${post.dateTime.toDate().toLocaleDateString()}</div>
