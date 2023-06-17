@@ -95,7 +95,15 @@ a {
   width: 40px;
   border-radius: 50%;
   float: left;
-  margin-top: 20px;
+  margin-bottom: 8px;
+  margin-right: 10px;
+}
+.header-feed {
+  display: inline-block;
+  vertical-align: middle;
+  color: #6F69EF;
+  font-size: 1.4em;
+  font-weight: 500;
 }
 
 .post-container {
