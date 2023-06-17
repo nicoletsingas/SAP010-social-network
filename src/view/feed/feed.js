@@ -6,17 +6,19 @@ import {
   likePost,
   dislikePost,
   checkLikedPosts,
+  calculateTimeAgo,
 } from '../../firebase/firebase';
 import './feed.css';
 import header from '../header/header.js';
 import likeIcon from '../../images/like-icon.svg';
 import likeIconColorful from '../../images/like-icon-colorful.svg';
+import saveIcon from '../../images/save-icon.svg';
+import cancelIcon from '../../images/cancel-icon.svg';
 
 export default (user) => {
   const container = document.createElement('div');
   container.classList.add('container-pai');
   container.appendChild(header());
-
   const containerFeed = document.createElement('section');
   containerFeed.classList.add('container-feed');
   const templateFeed = `
@@ -111,10 +113,12 @@ export default (user) => {
         postContent.focus();
         const btnSave = document.createElement('button');
         btnSave.classList.add('save-btn');
-        btnSave.textContent = 'Salvar';
+        btnSave.style.backgroundImage = `url(${saveIcon})`;
+        btnSave.textContent = '';
         const btnCancel = document.createElement('button');
         btnCancel.classList.add('cancel-btn');
-        btnCancel.textContent = 'Cancelar';
+        btnCancel.style.backgroundImage = `url(${cancelIcon})`;
+        btnCancel.textContent = '';
         postActions.appendChild(btnSave);
         postActions.appendChild(btnCancel);
         const del = postActions.querySelector('.delete-btn');
@@ -193,27 +197,5 @@ export default (user) => {
     });
   });
 
-feedShowPost
-  const calculateTimeAgo = (date) => {
-    const currentDate = new Date();
-    const timeDiff = currentDate.getTime() - date.getTime();
-  
-    const seconds = Math.floor(timeDiff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-  
-    if (days > 0) {
-      return `${days} dia${days === 1 ? '' : 's'} atrás`;
-    } else if (hours > 0) {
-      return `${hours} hora${hours === 1 ? '' : 's'} atrás`;
-    } else if (minutes > 0) {
-      return `${minutes} minuto${minutes === 1 ? '' : 's'} atrás`;
-    } else {
-      return `${seconds} segundo${seconds === 1 ? '' : 's'} atrás`;
-    }
-  };
-
   return container;
-  main
 };

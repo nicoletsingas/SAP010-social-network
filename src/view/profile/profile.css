@@ -65,7 +65,7 @@ input:focus {
     gap: 30px;
 }
 
-button {
+.save-profile-button, .cancel-profile-button, .edit-profile-button {
     background-color: var(--white);
     border: var(--white);
     border-radius: 10px;
