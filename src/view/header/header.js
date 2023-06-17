@@ -95,5 +95,4 @@ export default () => {
   });
 
   return containerHeaderMenu;
-}; 
-
+};

@@ -193,3 +193,16 @@ a {
   font-size: 0.8em;
   color: #616161;
 }
+.save-btn,
+.cancel-btn {
+  
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 18px;
+  height: 18px;
+  border: none; 
+  padding: 0; 
+  background-color: transparent; 
+  margin-right: 10px;
+  margin-left: 5px;
+}

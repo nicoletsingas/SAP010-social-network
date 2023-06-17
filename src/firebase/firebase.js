@@ -25,14 +25,21 @@ const isUserLoggedIn = () => new Promise((resolve) => {
 });
 
 const logIn = async (email, password) => {
-  await signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      console.log('logou o usuario');
-    }).then(() => onAuthStateChanged())
-    .catch((error) => {
-      console.log('Erro ao logar usuário', error.message);
-      throw error;
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    console.log('Usuário logado com sucesso');
+    window.location.href = '#feed';
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('O usuário está autenticado:', user);
+      } else {
+        console.log('O usuário não está autenticado');
+      }
     });
+  } catch (error) {
+    console.log('Erro ao logar usuário', error.message);
+    throw error;
+  }
 };
 
 const logOut = async () => {
@@ -191,7 +198,7 @@ const getUser = async () => {
     user.push(post.data());
   });
   return user;
-}
+};
 
 const editProfile = async (id, nameUser, nickName) => {
   const refDoc = doc(db, 'users', `${id}`);
@@ -200,7 +207,6 @@ const editProfile = async (id, nameUser, nickName) => {
     username: nickName,
   });
 };
-
 
 const changeNickNameAllPosts = async (nickName) => {
   const uid = auth.currentUser.uid;
@@ -216,9 +222,26 @@ const changeNickNameAllPosts = async (nickName) => {
   });
 };
 
+const calculateTimeAgo = (date) => {
+  const currentDate = new Date();
+  const timeDiff = currentDate.getTime() - date.getTime();
+  const seconds = Math.floor(timeDiff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  if (days > 0) {
+    return `${days} dia${days === 1 ? '' : 's'} atrás`;
+  } if (hours > 0) {
+    return `${hours} hora${hours === 1 ? '' : 's'} atrás`;
+  } if (minutes > 0) {
+    return `${minutes} minuto${minutes === 1 ? '' : 's'} atrás`;
+  }
+  return `${seconds} segundo${seconds === 1 ? '' : 's'} atrás`;
+};
+
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
   isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
   deletePost, onAuthStateChanged, likePost, dislikePost, checkLikedPosts, getUser, editProfile,
-  changeNickNameAllPosts,
+  changeNickNameAllPosts, calculateTimeAgo,
 };
