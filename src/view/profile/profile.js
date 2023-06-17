@@ -1,11 +1,13 @@
 import './profile.css';
 import profileIcon from '../../images/profile-icon-gradient.svg';
 import header from '../header/header.js';
-import { getUser, editProfile } from '../../firebase/firebase';
+import { getUser, editProfile, changeNickNameAllPosts } from '../../firebase/firebase';
+import { async } from 'regenerator-runtime';
 
 export default (user) => {
-  const headerTag = document.getElementById('header-content');
-  headerTag.appendChild(header());
+  const container = document.createElement('div');
+  container.classList.add('container-pai-profile')
+  container.appendChild(header());
 
   const containerProfile = document.createElement('section');
   containerProfile.classList.add('container-profile');
@@ -32,6 +34,7 @@ export default (user) => {
     <section class="posts-history"></section>
     `;
   containerProfile.innerHTML = templateProfile;
+  container.appendChild(containerProfile);
 
   const name = containerProfile.querySelector('.input-name');
   const inputUserName = containerProfile.querySelector('.input-user-name');
@@ -41,8 +44,8 @@ export default (user) => {
   const inputs = containerProfile.querySelectorAll('.input-profile');
   
   getUser().then((user) => {
-    name.value = user.name;
-    inputUserName.value = user.username;
+    name.value = user[0].nameUser;
+    inputUserName.value = user[0].user;
   });
 
   editProfileButton.addEventListener('click', () => { 
@@ -62,17 +65,21 @@ export default (user) => {
     saveProfileButton.style.display = 'none';
     cancelProfileButton.style.display = 'none';
     getUser().then((user) => {
-      name.value = user.name;
-      inputUserName.value = user.username;
+      name.value = user[0].nameUser;
+      inputUserName.value = user[0].user;
     });
   });
 
-  saveProfileButton.addEventListener('click', (collection) => {
+  saveProfileButton.addEventListener('click', async (collection) => {
     const updatedName = name.value;
     const updatedNickName = inputUserName.value;
-    editProfile(collection.target.id, updatedName, updatedNickName)
+    await editProfile(collection.target.id, updatedName, updatedNickName);
+    editProfileButton.style.display = 'block';
+    saveProfileButton.style.display = 'none';
+    cancelProfileButton.style.display = 'none';
+    changeNickNameAllPosts(updatedNickName);
   });
 
-  return containerProfile;
+  return container;
 
 };
