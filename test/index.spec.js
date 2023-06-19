@@ -10,6 +10,7 @@ import {
 
 import {
   setDoc, doc, deleteDoc, updateDoc, collection, getDocs, orderBy, query, serverTimestamp,
+  getDoc, db,
 } from 'firebase/firestore';
 
 import {
@@ -25,6 +26,8 @@ import {
   calculateTimeAgo,
   createPost,
   listAllPosts,
+  likePost,
+  deslikePost,
 } from '../src/firebase/firebase.js';
 
 const mockAuth = {
@@ -86,6 +89,7 @@ describe('logIn', () => {
     signInWithEmailAndPassword.mockResolvedValueOnce();
     await logIn(email, password);
     expect(signInWithEmailAndPassword).toHaveBeenCalledWith(auth, email, password);
+    expect(onAuthStateChanged).toHaveBeenCalled();
   });
 
   it('Deveria mostrar um erro e falhar ao logar o usuario', async () => {
@@ -186,6 +190,50 @@ describe('listAllPosts', () => {
     expect(orderBy).toHaveBeenCalled();
     expect(query).toHaveBeenCalled();
     expect(snapshot).toHaveBeenCalled();
+  });
+});
+
+describe('likePost', () => {
+  it('deve adicionar um like ao post corretamente', async () => {
+    const postId = 'post123';
+    const userId = 'user456';
+    const postSnapshot = { data: jest.fn(() => ({ likes: 0, likeBy: [] })) };
+    const updateDocMock = jest.fn();
+    const postRef = jest.fn().mockReturnThis();
+    doc.mockReturnValue(postRef);
+    getDoc.mockResolvedValue(postSnapshot);
+    updateDoc.mockImplementation(updateDocMock);
+
+    await likePost(postId, userId);
+    expect(doc).toHaveBeenCalledWith(db, 'posts', postId);
+    expect(getDoc).toHaveBeenCalledWith(postRef);
+    expect(postSnapshot.data).toHaveBeenCalled();
+    expect(updateDoc).toHaveBeenCalledWith(postRef, {
+      likes: 1,
+      likeBy: [userId],
+    });
+  });
+});
+
+describe('deslikePost', () => {
+  it('deve remover um like ao post corretamente', async () => {
+    const postId = 'post123';
+    const userId = 'user456';
+    const postSnapshot = { data: jest.fn(() => ({ likes: 1, likeBy: [userId] })) };
+    const updateDocMock = jest.fn();
+    const postRef = jest.fn().mockReturnThis();
+    doc.mockReturnValue(postRef);
+    getDoc.mockResolvedValue(postSnapshot);
+    updateDoc.mockImplementation(updateDocMock);
+
+    await deslikePost(postId, userId);
+    expect(doc).toHaveBeenCalledWith(db, 'posts', postId);
+    expect(getDoc).toHaveBeenCalledWith(postRef);
+    expect(postSnapshot.data).toHaveBeenCalled();
+    expect(updateDoc).toHaveBeenCalledWith(postRef, {
+      likes: 0,
+      likeBy: [],
+    });
   });
 });
 

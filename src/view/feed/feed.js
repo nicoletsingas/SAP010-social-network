@@ -4,7 +4,7 @@ import {
   editPost,
   deletePost,
   likePost,
-  dislikePost,
+  deslikePost,
   checkLikedPosts,
   calculateTimeAgo,
 } from '../../firebase/firebase';
@@ -170,7 +170,7 @@ export default (user) => {
         if (isLiked) {
           atualLike.src = atualLike.dataset.unliked;
           count -= 1;
-          await dislikePost(atualPost.docRef, user.uid);
+          await deslikePost(atualPost.docRef, user.uid);
           atualLike.classList.remove('like-icon-colorful');
         } else {
           atualLike.src = atualLike.dataset.liked;
