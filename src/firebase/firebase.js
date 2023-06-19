@@ -74,9 +74,10 @@ const registerUserWithAnotherProvider = async (id, name, username, email, photoU
 
 const registerUser = async (name, username, email, password) => {
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const auth2 = getAuth(app);
+    await createUserWithEmailAndPassword(auth2, email, password);
     const userData = {
-      id: auth.currentUser.uid,
+      id: auth2.currentUser.uid,
       name,
       username,
       email,

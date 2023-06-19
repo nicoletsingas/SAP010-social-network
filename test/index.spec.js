@@ -5,6 +5,7 @@ import {
   auth,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
+  getAuth,
 } from 'firebase/auth';
 
 import {
@@ -32,12 +33,20 @@ const mockAuth = {
     email: 'spock@gmail.com',
     uid: '3141592',
     password: 'Senha@123',
-    data: () => ({ name: 'maria' }),
+    data: () => ({
+      name: 'maria',
+      photoURL: '',
+      username: 'maria',
+    }),
   },
 };
 
 jest.mock('firebase/auth');
 jest.mock('firebase/firestore');
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
 describe('signInWithGoogle', () => {
   it('deveria ser uma função', () => {
@@ -59,7 +68,7 @@ describe('signInWithGitHub', () => {
   it('Deveria logar o usuário com a conta do GitHub', async () => {
     signInWithPopup.mockResolvedValueOnce();
     await signInWithGitHub();
-    expect(signInWithPopup).toHaveBeenCalledTimes(2);
+    expect(signInWithPopup).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -114,47 +123,41 @@ describe('registerUserWithAnotherProvider', () => {
 
 describe('registerUser', () => {
   it('Deveria cadastrar um usuário com o formulário', async () => {
-    const user = mockAuth.currentUser;
+    const u = mockAuth.currentUser;
+    getAuth.mockReturnValueOnce(mockAuth);
     setDoc.mockResolvedValueOnce();
-    await registerUser(user.displayName, user.displayName, user.email, user.password);
-    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(auth, user.email, user.password);
-    expect(setDoc).toHaveBeenCalledTimes(2);
+    await registerUser(u.displayName, u.displayName, u.email, u.password);
+    expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(mockAuth, u.email, u.password);
+    expect(setDoc).toHaveBeenCalledTimes(1);
     expect(doc).toHaveBeenCalled();
   });
 });
 
 describe('createPost', () => {
   it('Deveria criar um post do usuario e add na collection', async () => {
-    const dateTime = serverTimestamp.mockResolvedValueOnce('01/01/2023');
     const querySnapshot = getDocs.mockResolvedValueOnce([mockAuth.currentUser]);
-    const auth2 = {
-      currentUser: {},
+    const user = {
+      uid: '123',
     };
-    auth2.currentUser = jest.fn().mockReturnValueOnce({ uid: '123' });
-    const docRef = doc.mockResolvedValueOnce('1234567');
-    // jest.fn().mockReturnValueOnce({ id: '123456' });
-    const uidUser = auth2.currentUser;
-    const name = 'maria';
-    const nameUser = 'maria';
-    const photo = '';
+    const docRef = { id: '123456' };
+    doc.mockReturnValueOnce(docRef);
     const textPost = 'abc';
     const likes = 0;
     const likeBy = [];
-    const date = dateTime;
     const post = {
-      id: uidUser,
-      nameUser: name,
-      user: nameUser,
-      photoURL: photo,
+      id: '123',
+      nameUser: 'maria',
+      user: 'maria',
+      photoURL: '',
       content: textPost,
       likes,
       likeBy,
-      dateTime: date,
+      dateTime: serverTimestamp(),
     };
-    await createPost(textPost, uidUser);
+    await createPost(textPost, user);
     expect(querySnapshot).toHaveBeenCalled();
-    expect(setDoc).toHaveBeenCalledTimes(3);
-    expect(setDoc).toHaveBeenCalledWith(undefined, post);
+    expect(setDoc).toHaveBeenCalledWith(docRef, post);
+    expect(setDoc).toHaveBeenCalledTimes(1);
     expect(updateDoc).toHaveBeenCalledWith(docRef, { docRef: docRef.id });
   });
 });
