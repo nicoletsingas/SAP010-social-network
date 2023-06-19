@@ -158,7 +158,7 @@ const likePost = async (postId, userId) => {
   console.log('like no post');
 };
 
-const dislikePost = async (postId, userId) => {
+const deslikePost = async (postId, userId) => {
   const postRef = doc(db, 'posts', postId);
   const postSnapshot = await getDoc(postRef);
   const post = postSnapshot.data();
@@ -242,6 +242,6 @@ const calculateTimeAgo = (date) => {
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
   isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
-  deletePost, onAuthStateChanged, likePost, dislikePost, checkLikedPosts, getUser, editProfile,
+  deletePost, onAuthStateChanged, likePost, deslikePost, checkLikedPosts, getUser, editProfile,
   changeNickNameAllPosts, calculateTimeAgo,
 };
