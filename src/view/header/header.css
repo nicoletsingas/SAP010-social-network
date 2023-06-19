@@ -32,14 +32,11 @@
     border-radius: 0px 5px;
     display: block;
     height: 100%;
+    margin-top: 63px;
     position: fixed;
     top: 10;
     left: 0;
     width: 180px;
-}
-
-.menu-nav, .menu-nav-desktop{
-    margin-top: 63px;
 }
 
 .menu-nav-desktop{

@@ -2,11 +2,10 @@ import './profile.css';
 import profileIcon from '../../images/profile-icon-gradient.svg';
 import header from '../header/header.js';
 import { getUser, editProfile, changeNickNameAllPosts } from '../../firebase/firebase';
-import { async } from 'regenerator-runtime';
 
 export default (user) => {
   const container = document.createElement('div');
-  container.classList.add('container-pai-profile')
+  container.classList.add('container-pai-profile');
   container.appendChild(header());
 
   const containerProfile = document.createElement('section');
@@ -42,13 +41,13 @@ export default (user) => {
   const saveProfileButton = containerProfile.querySelector('.save-profile-button');
   const cancelProfileButton = containerProfile.querySelector('.cancel-profile-button');
   const inputs = containerProfile.querySelectorAll('.input-profile');
-  
-  getUser().then((user) => {
-    name.value = user[0].nameUser;
-    inputUserName.value = user[0].user;
+
+  getUser().then((userColletion) => {
+    name.value = userColletion[0].nameUser;
+    inputUserName.value = userColletion[0].user;
   });
 
-  editProfileButton.addEventListener('click', () => { 
+  editProfileButton.addEventListener('click', () => {
     inputs.forEach((input) => {
       input.removeAttribute('disabled');
     });
@@ -64,9 +63,9 @@ export default (user) => {
     editProfileButton.style.display = 'block';
     saveProfileButton.style.display = 'none';
     cancelProfileButton.style.display = 'none';
-    getUser().then((user) => {
-      name.value = user[0].nameUser;
-      inputUserName.value = user[0].user;
+    getUser().then((userCancel) => {
+      name.value = userCancel[0].nameUser;
+      inputUserName.value = userCancel[0].user;
     });
   });
 
@@ -81,5 +80,4 @@ export default (user) => {
   });
 
   return container;
-
 };
