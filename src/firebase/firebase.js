@@ -28,7 +28,6 @@ const logIn = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
     console.log('Usuário logado com sucesso');
-    window.location.href = '#feed';
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log('O usuário está autenticado:', user);
@@ -89,8 +88,8 @@ const registerUser = async (name, username, email, password) => {
   }
 };
 
-const createPost = async (textPost) => {
-  const uid = auth.currentUser.uid;
+const createPost = async (textPost, user) => {
+  const uid = user.uid;
   let photo = '';
   let nameUser = '';
   let name = '';

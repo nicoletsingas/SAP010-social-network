@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth';
 
 import {
-  setDoc, doc, deleteDoc, updateDoc,
+  setDoc, doc, deleteDoc, updateDoc, collection, getDocs, orderBy, query, serverTimestamp,
 } from 'firebase/firestore';
 
 import {
@@ -21,6 +21,9 @@ import {
   isUserLoggedIn,
   deletePost,
   editPost,
+  calculateTimeAgo,
+  createPost,
+  listAllPosts,
 } from '../src/firebase/firebase.js';
 
 const mockAuth = {
@@ -29,15 +32,12 @@ const mockAuth = {
     email: 'spock@gmail.com',
     uid: '3141592',
     password: 'Senha@123',
+    data: () => ({ name: 'maria' }),
   },
 };
 
 jest.mock('firebase/auth');
 jest.mock('firebase/firestore');
-
-beforeAll(() => {
-  jest.clearAllMocks();
-});
 
 describe('signInWithGoogle', () => {
   it('deveria ser uma função', () => {
@@ -115,10 +115,47 @@ describe('registerUserWithAnotherProvider', () => {
 describe('registerUser', () => {
   it('Deveria cadastrar um usuário com o formulário', async () => {
     const user = mockAuth.currentUser;
+    setDoc.mockResolvedValueOnce();
     await registerUser(user.displayName, user.displayName, user.email, user.password);
     expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(auth, user.email, user.password);
     expect(setDoc).toHaveBeenCalledTimes(2);
     expect(doc).toHaveBeenCalled();
+  });
+});
+
+describe('createPost', () => {
+  it('Deveria criar um post do usuario e add na collection', async () => {
+    const dateTime = serverTimestamp.mockResolvedValueOnce('01/01/2023');
+    const querySnapshot = getDocs.mockResolvedValueOnce([mockAuth.currentUser]);
+    const auth2 = {
+      currentUser: {},
+    };
+    auth2.currentUser = jest.fn().mockReturnValueOnce({ uid: '123' });
+    const docRef = doc.mockResolvedValueOnce('1234567');
+    // jest.fn().mockReturnValueOnce({ id: '123456' });
+    const uidUser = auth2.currentUser;
+    const name = 'maria';
+    const nameUser = 'maria';
+    const photo = '';
+    const textPost = 'abc';
+    const likes = 0;
+    const likeBy = [];
+    const date = dateTime;
+    const post = {
+      id: uidUser,
+      nameUser: name,
+      user: nameUser,
+      photoURL: photo,
+      content: textPost,
+      likes,
+      likeBy,
+      dateTime: date,
+    };
+    await createPost(textPost, uidUser);
+    expect(querySnapshot).toHaveBeenCalled();
+    expect(setDoc).toHaveBeenCalledTimes(3);
+    expect(setDoc).toHaveBeenCalledWith(undefined, post);
+    expect(updateDoc).toHaveBeenCalledWith(docRef, { docRef: docRef.id });
   });
 });
 
@@ -137,13 +174,32 @@ describe('editPost', () => {
     expect(doc).toHaveBeenCalled();
   });
 });
-/* describe('listAllPosts', () => {
+
+describe('listAllPosts', () => {
   it('Deveria listar todos os posts no feed', async () => {
-    const snapshot = getDocs();
+    const snapshot = getDocs.mockResolvedValueOnce([mockAuth.currentUser]);
     await listAllPosts();
     expect(collection).toHaveBeenCalled();
     expect(orderBy).toHaveBeenCalled();
     expect(query).toHaveBeenCalled();
     expect(snapshot).toHaveBeenCalled();
   });
-}); */
+});
+
+describe('calculateTimeAgo', () => {
+  it('retorna o tempo da postagem', () => {
+    const currentDate = new Date();
+    const testDate = [
+      { value: 1000, expected: '1 segundo atrás' },
+      { value: 60000, expected: '1 minuto atrás' },
+      { value: 3600000, expected: '1 hora atrás' },
+      { value: 86400000, expected: '1 dia atrás' },
+      { value: 172800000, expected: '2 dias atrás' },
+    ];
+    testDate.forEach((data) => {
+      const dateTime = new Date(currentDate.getTime() - data.value);
+      const result = calculateTimeAgo(dateTime);
+      expect(result).toBe(data.expected);
+    });
+  });
+});
