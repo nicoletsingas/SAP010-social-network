@@ -76,6 +76,16 @@ export default (user) => {
     postsList.innerHTML += feed;
     feedMain.appendChild(postsList);
 
+    const txts = postsList.querySelectorAll('.post-content');
+
+    txts.forEach((txt) => {
+      const sizeHeight = txt.scrollHeight;
+      txt.style.height = `${sizeHeight}px`;
+      txt.addEventListener('input', function () {
+        this.style.height = `${sizeHeight}px`;
+      });
+    });
+
     const btns = postsList.querySelectorAll(`.p${post.id}`);
     const btnsDelete = postsList.querySelectorAll('.delete');
     const btnsEdit = postsList.querySelectorAll('.edit');

@@ -193,7 +193,7 @@ const getUser = async () => {
   const docRef = collection(db, 'posts');
   const q = query(docRef, where('id', '==', uid));
   const querySnapshot = await getDocs(q);
-  let user = [];
+  const user = [];
   querySnapshot.forEach((post) => {
     user.push(post.data());
   });
