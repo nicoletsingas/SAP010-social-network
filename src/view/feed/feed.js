@@ -29,7 +29,7 @@ export default (user) => {
             <img src="${user.photoURL}" class="user-picture-feed" alt="user-picture">
             <span>${user.displayName}</span>
           </div>
-          <textarea id="user-text-area" placeholder="O que está jogando?"></textarea>
+          <textarea id="user-text-area" placeholder="O que está jogando?" maxlength="700"></textarea>
           <div class="div-btn-publish">
             <button class="btn-publish">Publicar</button>
           </div>     
@@ -59,16 +59,16 @@ export default (user) => {
       <textarea id="${post.docRef}" class="post-content" disabled>${post.content}</textarea>
       <div class="post-info">
         <div class="post-likes">
-        <img class="like-icon" src="${likeIconSrc}" alt="Like" data-unliked="${likeIcon}" data-liked="${likeIconColorful}">
+          <img class="like-icon" src="${likeIconSrc}" alt="Like" data-unliked="${likeIcon}" data-liked="${likeIconColorful}">
           <span class="like-count">${post.likes}</span>
         </div>
-      </div>
-      <div class="post-actions">
-        <div class="edit-btn p${post.id}" style="display: none;">
-          <img src="images/edit-icon.svg" alt="Editar" class="edit">
-        </div>
-        <div class="delete-btn p${post.id}" style="display: none;">
-          <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir" class="delete">
+        <div class="post-actions">
+          <div class="edit-btn p${post.id}" style="display: none;">
+            <img src="images/edit-icon.svg" alt="Editar" class="edit">
+          </div>
+          <div class="delete-btn p${post.id}" style="display: none;">
+            <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir" class="delete">
+          </div>
         </div>
       </div>
     </div>
@@ -116,7 +116,8 @@ export default (user) => {
       btn.addEventListener('click', () => {
         const divBtn = btn.parentNode;
         const postActions = divBtn.parentNode;
-        const postContainer = postActions.parentNode;
+        const postInfo = postActions.parentNode;
+        const postContainer = postInfo.parentNode;
         const postContent = postContainer.querySelector('.post-content');
         postContent.removeAttribute('disabled');
         postContent.tabindex = '0';

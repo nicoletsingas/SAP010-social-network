@@ -114,6 +114,7 @@ a {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: end;
 }
 
 .post-header {
@@ -145,11 +146,12 @@ a {
 }
 
 .post-content {
-  min-height: 75px;
+  min-height: 80px;
   max-height: max-content;
   height: auto;
   background: #FFFFFF;
   border-radius: 10px;
+  border: none;
   margin: 10px;
   padding: 10px;
   overflow: hidden;
@@ -162,10 +164,16 @@ a {
   font-weight: 500;
 }
 
+.post-info{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .post-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: -20px;
   margin-right: 10px;
 }
 

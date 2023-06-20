@@ -147,10 +147,11 @@ export default () => {
         window.location.href = '#feed';
       }
     } catch (error) {
-      if (error.message === "Cannot read properties of null (reading 'uid')") {
+      if (error.code === "auth/account-exists-with-different-credential") {
         alert('Usuário já cadastrado com provedor do Google');
+      } else {
+        console.log(error.message);
       }
-      console.log(error.message);
     }
   });
 
