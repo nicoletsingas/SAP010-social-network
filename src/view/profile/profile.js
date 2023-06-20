@@ -10,10 +10,11 @@ export default (user) => {
 
   const containerProfile = document.createElement('section');
   containerProfile.classList.add('container-profile');
+  const profileIconForm = user.photoURL ? user.photoURL : profileIcon;
   const templateProfile = `
     <section class="my-profile display-flex-column">
       <div class="profile-picture display-flex-column">
-        <img src="${profileIcon}" alt="profile icon">
+        <img src="${profileIconForm}" alt="profile icon">
         <span>Meu Perfil</span>
       </div>
       <form class="display-flex-column">
