@@ -188,7 +188,7 @@ export default (user) => {
     const post = containerFeed.querySelector('#user-text-area');
     const postInput = post.value;
     if (postInput.length > 0) {
-      await createPost(postInput, user.uid);
+      await createPost(postInput, user);
       post.value = '';
       listAllPosts().then((posts) => {
         postsList.innerHTML = '';
