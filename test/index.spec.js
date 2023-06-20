@@ -10,7 +10,7 @@ import {
 
 import {
   setDoc, doc, deleteDoc, updateDoc, collection, getDocs, orderBy, query, serverTimestamp,
-  getDoc, db,
+  getDoc, db, getDoc, db,
 } from 'firebase/firestore';
 
 import {
