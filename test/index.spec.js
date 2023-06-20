@@ -10,7 +10,7 @@ import {
 
 import {
   setDoc, doc, deleteDoc, updateDoc, collection, getDocs, orderBy, query, serverTimestamp,
-  getDoc, db, getDoc, db,
+  getDoc, db, where,
 } from 'firebase/firestore';
 
 import {
@@ -29,6 +29,7 @@ import {
   likePost,
   deslikePost,
   checkLikedPosts,
+  changeNickNameAllPosts,
 } from '../src/firebase/firebase.js';
 
 const mockAuth = {
@@ -290,5 +291,24 @@ describe('calculateTimeAgo', () => {
       const result = calculateTimeAgo(dateTime);
       expect(result).toBe(data.expected);
     });
+  });
+});
+
+describe('changeNickNameAllPosts', () => {
+  it('Deveria alterar o nickname do usuario e de todos os post deste', async () => {
+    const mockNickname = 'mariazinha';
+    const mockUid = '123456789';
+    const mockSnapshot = {
+      forEach: jest.fn((callback) => {
+        const mockDocument = { data: jest.fn(() => ({ docRef: 'teste' })) };
+        callback(mockDocument);
+      }),
+    };
+    getDocs.mockResolvedValue(mockSnapshot);
+    updateDoc.mockResolvedValue();
+    await changeNickNameAllPosts(mockNickname, mockUid);
+    expect(query).toHaveBeenCalledWith(collection(db, 'posts'), where('id', '==', mockUid));
+    expect(getDocs).toHaveBeenCalledWith(query());
+    expect(updateDoc).toHaveBeenCalledWith(doc(db, 'posts', 'teste'), { user: mockNickname });
   });
 });
