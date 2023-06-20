@@ -1,7 +1,7 @@
 import './profile.css';
 import profileIcon from '../../images/profile-icon-gradient.svg';
 import header from '../header/header.js';
-import { getUser, editProfile, changeNickNameAllPosts } from '../../firebase/firebase';
+import { editProfile, changeNickNameAllPosts } from '../../firebase/firebase';
 
 export default (user) => {
   const container = document.createElement('div');
@@ -14,7 +14,7 @@ export default (user) => {
   const templateProfile = `
     <section class="my-profile display-flex-column">
       <div class="profile-picture display-flex-column">
-        <img src="${profileIconForm}" alt="profile icon">
+        <img class="profileIconForm" src="${profileIconForm}" alt="profile icon">
         <span>Meu Perfil</span>
       </div>
       <form class="display-flex-column">
@@ -43,10 +43,8 @@ export default (user) => {
   const cancelProfileButton = containerProfile.querySelector('.cancel-profile-button');
   const inputs = containerProfile.querySelectorAll('.input-profile');
 
-  getUser().then((userColletion) => {
-    name.value = userColletion[0].nameUser;
-    inputUserName.value = userColletion[0].user;
-  });
+  name.value = user.displayName;
+  inputUserName.value = user.displayName;
 
   editProfileButton.addEventListener('click', () => {
     inputs.forEach((input) => {
@@ -64,20 +62,22 @@ export default (user) => {
     editProfileButton.style.display = 'block';
     saveProfileButton.style.display = 'none';
     cancelProfileButton.style.display = 'none';
-    getUser().then((userCancel) => {
-      name.value = userCancel[0].nameUser;
-      inputUserName.value = userCancel[0].user;
-    });
+    name.value = user.displayName;
+    inputUserName.value = user.displayName;
   });
 
   saveProfileButton.addEventListener('click', async (collection) => {
-    const updatedName = name.value;
-    const updatedNickName = inputUserName.value;
-    await editProfile(collection.target.id, updatedName, updatedNickName);
-    editProfileButton.style.display = 'block';
-    saveProfileButton.style.display = 'none';
-    cancelProfileButton.style.display = 'none';
-    changeNickNameAllPosts(updatedNickName, user);
+    if (inputUserName.value === '' || name.value === '') {
+      alert('O nome não pode ser vazio!');
+    } else {
+      const updatedName = name.value;
+      const updatedNickName = inputUserName.value;
+      await editProfile(collection.target.id, updatedName, updatedNickName);
+      editProfileButton.style.display = 'block';
+      saveProfileButton.style.display = 'none';
+      cancelProfileButton.style.display = 'none';
+      changeNickNameAllPosts(updatedNickName, user);
+    }
   });
 
   return container;
