@@ -1,6 +1,7 @@
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut, onAuthStateChanged,
+  signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut,
+  onAuthStateChanged, updateProfile,
 } from 'firebase/auth';
 
 import {
@@ -72,6 +73,10 @@ const registerUser = async (name, username, email, password) => {
   try {
     const auth2 = getAuth(app);
     await createUserWithEmailAndPassword(auth2, email, password);
+    await updateProfile(auth2.currentUser, {
+      displayName: username, photoURL: 'https://firebasestorage.googleapis.com/v0/b/social-network-237a8.appspot.com/o/profilePicture%2Fprofile-icon-gradient.svg?alt=media&token=0ccdc9b4-1b32-417b-9dc6-8eaaed3d1a2c'
+    });
+    console.log(auth2);
     const userData = {
       id: auth2.currentUser.uid,
       name,
@@ -83,6 +88,7 @@ const registerUser = async (name, username, email, password) => {
   } catch (error) {
     console.log('Erro ao cadastrar usuário:', error.message);
   }
+  
 };
 
 const createPost = async (textPost, user) => {

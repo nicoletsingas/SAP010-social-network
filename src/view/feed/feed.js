@@ -14,6 +14,8 @@ import likeIcon from '../../images/like-icon.svg';
 import likeIconColorful from '../../images/like-icon-colorful.svg';
 import saveIcon from '../../images/save-icon.svg';
 import cancelIcon from '../../images/cancel-icon.svg';
+import editIcon from '../../images/edit-icon.svg';
+import deleteIcon from '../../images/delete-icon.svg';
 
 export default (user) => {
   const container = document.createElement('div');
@@ -64,10 +66,10 @@ export default (user) => {
         </div>
         <div class="post-actions">
           <div class="edit-btn p${post.id}" style="display: none;">
-            <img src="images/edit-icon.svg" alt="Editar" class="edit">
+            <img src="${editIcon}" alt="Editar" class="edit">
           </div>
           <div class="delete-btn p${post.id}" style="display: none;">
-            <img id="${post.docRef}" src="images/delete-icon.svg" alt="Excluir" class="delete">
+            <img id="${post.docRef}" src="${deleteIcon}" alt="Excluir" class="delete">
           </div>
         </div>
       </div>
