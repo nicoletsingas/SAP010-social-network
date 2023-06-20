@@ -6,7 +6,7 @@ Desenvolvido por:
   <br>
   Helouise Itokazo - [Linkedin](https://www.linkedin.com/in/helou%C3%ADse-itokazo-749778132/) | [Github](https://github.com/HelouiseItokazo)
   <br>
-  Larissa de Paula - [Linkedin]() | [Github](https://github.com/laridepaula)
+  Larissa de Paula - [Linkedin](https://www.linkedin.com/in/larissa-de-paula-aa3504a1/) | [Github](https://github.com/laridepaula)
   <br>
   Nicole Monalisa Tsingas - [Linkedin](https://www.linkedin.com/in/nicole-tsingas-2079b218b/) | [Github](https://github.com/nicoletsingas)
   <br>
@@ -44,9 +44,11 @@ Terceiro projeto desenvolvido para o bootcamp da Laboratória. Neste projeto foi
 
 #### Protótipo de alta fidelidade Mobile
 ![prototipo-mobile](./src/images/prototipo-mobile.png)
+![prototipo-mobile](./src/images/prototipo-mobile-feed.png)
 
 #### Protótipo de alta fidelidade Desktop
-![prototipo-mobile](./src/images/prototipo-desktop.png)
+![prototipo-desktop](./src/images/prototipo-desktop.png)
+![prototipo-desktop](./src/images/prototipo-desktop-feed.png)
 
 ## 4. Objetivos de aprendizagem✅
 
