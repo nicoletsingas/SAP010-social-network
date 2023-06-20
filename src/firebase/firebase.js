@@ -74,7 +74,7 @@ const registerUser = async (name, username, email, password) => {
     const auth2 = getAuth(app);
     await createUserWithEmailAndPassword(auth2, email, password);
     await updateProfile(auth2.currentUser, {
-      displayName: username, photoURL: 'https://firebasestorage.googleapis.com/v0/b/social-network-237a8.appspot.com/o/profilePicture%2Fprofile-icon-gradient.svg?alt=media&token=0ccdc9b4-1b32-417b-9dc6-8eaaed3d1a2c'
+      displayName: username, photoURL: 'https://firebasestorage.googleapis.com/v0/b/social-network-237a8.appspot.com/o/profilePicture%2Fprofile-icon-gradient.svg?alt=media&token=0ccdc9b4-1b32-417b-9dc6-8eaaed3d1a2c',
     });
     console.log(auth2);
     const userData = {
@@ -88,7 +88,6 @@ const registerUser = async (name, username, email, password) => {
   } catch (error) {
     console.log('Erro ao cadastrar usuário:', error.message);
   }
-  
 };
 
 const createPost = async (textPost, user) => {
@@ -190,24 +189,14 @@ const checkLikedPosts = async (postId, userId) => {
   return false;
 };
 
-const getUser = async () => {
-  const uid = auth.currentUser.uid;
-  const docRef = collection(db, 'posts');
-  const q = query(docRef, where('id', '==', uid));
-  const querySnapshot = await getDocs(q);
-  const user = [];
-  querySnapshot.forEach((post) => {
-    user.push(post.data());
-  });
-  return user;
-};
-
 const editProfile = async (id, nameUser, nickName) => {
+  const auth4 = getAuth(app);
   const refDoc = doc(db, 'users', `${id}`);
   await updateDoc(refDoc, {
     name: nameUser,
     username: nickName,
   });
+  await updateProfile(auth4.currentUser, { displayName: nickName });
 };
 
 const changeNickNameAllPosts = async (nickName, user) => {
@@ -244,6 +233,6 @@ const calculateTimeAgo = (date) => {
 export {
   registerUserWithAnotherProvider, registerUser, logIn, signInWithGoogle, signInWithGitHub,
   isUserLoggedIn, logOut, auth, signInWithPopup, createPost, listAllPosts, editPost,
-  deletePost, onAuthStateChanged, likePost, deslikePost, checkLikedPosts, getUser, editProfile,
+  deletePost, onAuthStateChanged, likePost, deslikePost, checkLikedPosts, editProfile,
   changeNickNameAllPosts, calculateTimeAgo,
 };

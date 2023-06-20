@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   getAuth,
+  updateProfile,
 } from 'firebase/auth';
 
 import {
@@ -30,6 +31,7 @@ import {
   deslikePost,
   checkLikedPosts,
   changeNickNameAllPosts,
+  editProfile,
 } from '../src/firebase/firebase.js';
 
 const mockAuth = {
@@ -310,5 +312,26 @@ describe('changeNickNameAllPosts', () => {
     expect(query).toHaveBeenCalledWith(collection(db, 'posts'), where('id', '==', mockUid));
     expect(getDocs).toHaveBeenCalledWith(query());
     expect(updateDoc).toHaveBeenCalledWith(doc(db, 'posts', 'teste'), { user: mockNickname });
+  });
+});
+
+describe('editProfile', () => {
+  it('Deveria editar o perfil do usuario', async () => {
+    const mockAuth3 = {
+      name: '',
+      username: '',
+      displayName: '',
+    };
+    const auth4 = getAuth();
+    const mockName = 'elza';
+    const mockUserName = 'elzinha';
+    const mockId = '123456789';
+    getAuth.mockReturnValueOnce(mockAuth3);
+    await editProfile(mockId, mockName, mockUserName);
+    expect(updateDoc).toHaveBeenCalledWith(doc(db, 'users', mockId), {
+      name: mockName,
+      username: mockUserName,
+    });
+    expect(updateProfile).toHaveBeenCalledWith(auth4, { displayName: mockUserName });
   });
 });

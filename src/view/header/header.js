@@ -4,6 +4,7 @@ import { logOut } from '../../firebase/firebase';
 import profileIcon from '../../images/profile-icon.svg';
 import signoutIcon from '../../images/signout-icon.svg';
 import feedIcon from '../../images/feed-icon.svg';
+import menuHamburguerIcon from '../../images/menu-hamburger.svg';
 
 export default () => {
   const containerHeaderMenu = document.createElement('section');
@@ -12,7 +13,7 @@ export default () => {
     <header>
         <div class="header">
           <picture class="hamburger-menu">
-              <img class="icon-menu" src="images/menu-hamburger.svg" alt="menu hamburguer">
+              <img class="icon-menu" src="${menuHamburguerIcon}" alt="menu hamburguer">
           </picture>
           <div class="title-menu">
               <h1>&lt;GAMEE&gt;</h1>
