@@ -262,8 +262,8 @@
   }
   
   .btn-register:enabled:hover{
-    color:#6F69EF ;
-    background-color:#fff ;
+    color:#ffffff ;
+    background-color: #5248ff;
   }
   .register-icons img {
     height: 35px;
