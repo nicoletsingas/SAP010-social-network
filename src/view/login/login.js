@@ -147,7 +147,7 @@ export default () => {
         window.location.href = '#feed';
       }
     } catch (error) {
-      if (error.code === "auth/account-exists-with-different-credential") {
+      if (error.code === 'auth/account-exists-with-different-credential') {
         alert('Usuário já cadastrado com provedor do Google');
       } else {
         console.log(error.message);

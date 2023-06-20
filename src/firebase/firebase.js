@@ -204,8 +204,8 @@ const editProfile = async (id, nameUser, nickName) => {
   });
 };
 
-const changeNickNameAllPosts = async (nickName) => {
-  const uid = auth.currentUser.uid;
+const changeNickNameAllPosts = async (nickName, user) => {
+  const uid = user.uid;
   const ref = collection(db, 'posts');
   const q = query(ref, where('id', '==', uid));
   const snapshot = await getDocs(q);

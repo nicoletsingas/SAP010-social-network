@@ -77,7 +77,7 @@ export default (user) => {
     editProfileButton.style.display = 'block';
     saveProfileButton.style.display = 'none';
     cancelProfileButton.style.display = 'none';
-    changeNickNameAllPosts(updatedNickName);
+    changeNickNameAllPosts(updatedNickName, user);
   });
 
   return container;
