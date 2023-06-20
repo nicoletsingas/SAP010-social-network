@@ -10,7 +10,7 @@ import {
 
 import {
   setDoc, doc, deleteDoc, updateDoc, collection, getDocs, orderBy, query, serverTimestamp,
-  getDoc, db,
+  getDoc, db, getDoc, db,
 } from 'firebase/firestore';
 
 import {
@@ -28,6 +28,7 @@ import {
   listAllPosts,
   likePost,
   deslikePost,
+  checkLikedPosts,
 } from '../src/firebase/firebase.js';
 
 const mockAuth = {
@@ -204,6 +205,10 @@ describe('likePost', () => {
     getDoc.mockResolvedValue(postSnapshot);
     updateDoc.mockImplementation(updateDocMock);
 
+    postSnapshot.data.mockReturnValueOnce({ likes: 0, likeBy: [userId] });
+    await likePost(postId, userId);
+    expect(updateDoc).not.toHaveBeenCalled();
+
     await likePost(postId, userId);
     expect(doc).toHaveBeenCalledWith(db, 'posts', postId);
     expect(getDoc).toHaveBeenCalledWith(postRef);
@@ -226,6 +231,10 @@ describe('deslikePost', () => {
     getDoc.mockResolvedValue(postSnapshot);
     updateDoc.mockImplementation(updateDocMock);
 
+    postSnapshot.data.mockReturnValueOnce({ likes: 1, likeBy: [] });
+    await deslikePost(postId, userId);
+    expect(updateDoc).not.toHaveBeenCalled();
+
     await deslikePost(postId, userId);
     expect(doc).toHaveBeenCalledWith(db, 'posts', postId);
     expect(getDoc).toHaveBeenCalledWith(postRef);
@@ -234,6 +243,35 @@ describe('deslikePost', () => {
       likes: 0,
       likeBy: [],
     });
+  });
+});
+
+describe('checkLikedPosts', () => {
+  it('deve verificar se o post ja foi curtido pelo usuário', async () => {
+    const postId = 'post123';
+    const userId = 'user456';
+    const postSnapshot = { data: jest.fn(() => ({ likeBy: [userId] })) };
+    const postRef = jest.fn().mockReturnThis();
+    doc.mockReturnValue(postRef);
+    getDoc.mockResolvedValue(postSnapshot);
+    const result = await checkLikedPosts(postId, userId);
+    expect(doc).toHaveBeenCalledWith(db, 'posts', postId);
+    expect(getDoc).toHaveBeenCalledWith(postRef);
+    expect(postSnapshot.data).toHaveBeenCalled();
+    expect(result).toBe(true);
+  });
+  it('deve verificar se o post não foi curtido pelo usuário', async () => {
+    const postId = 'post123';
+    const userId = 'user456';
+    const postSnapshot = { data: jest.fn(() => ({ likeBy: [] })) };
+    const postRef = jest.fn().mockReturnThis();
+    doc.mockReturnValue(postRef);
+    getDoc.mockResolvedValue(postSnapshot);
+    const result = await checkLikedPosts(postId, userId);
+    expect(doc).toHaveBeenCalledWith(db, 'posts', postId);
+    expect(getDoc).toHaveBeenCalledWith(postRef);
+    expect(postSnapshot.data).toHaveBeenCalled();
+    expect(result).toBe(false);
   });
 });
 

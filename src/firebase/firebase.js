@@ -16,11 +16,7 @@ const auth = getAuth(app);
 
 const isUserLoggedIn = () => new Promise((resolve) => {
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      resolve(true);
-    } else {
-      resolve(false);
-    }
+    resolve(!!user);
   });
 });
 
