@@ -25,12 +25,19 @@
     width: 100%;
 }
 
+.menu-nav{ 
+    display: none;
+}
+
+.menu-nav-desktop{
+    display: block;
+}
+
 .menu-nav, .menu-nav-desktop{
     background-color: var(--bgColor);
     border-top: 3px solid var(--thirdColor);
     border-right: 3px solid var(--thirdColor);
     border-radius: 0px 5px;
-    display: block;
     height: 100%;
     margin-top: 63px;
     position: fixed;
