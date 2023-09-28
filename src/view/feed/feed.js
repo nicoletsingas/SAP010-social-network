@@ -44,8 +44,8 @@ export default (user) => {
 
   const feedMain = containerFeed.querySelector('.feed');
   const btnPublish = containerFeed.querySelector('.btn-publish');
-  const postsList = document.createElement('section');
 
+  const postsList = document.createElement('section');
   postsList.classList.add('section-posts');
 
   const showPosts = async (post) => {

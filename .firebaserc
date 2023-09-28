@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "social-network-237a8"
-  }
+    "default": "social-network-237a8",
+    "firebase deploy --only hosting": "gamee-97311"
+  },
+  "targets": {},
+  "etags": {}
 }
