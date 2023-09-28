@@ -24,7 +24,6 @@ const isUserLoggedIn = () => new Promise((resolve) => {
 const logIn = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    console.log('Usuário logado com sucesso');
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log('O usuário está autenticado:', user);
@@ -74,15 +73,14 @@ const registerUser = async (name, username, email, password) => {
     const auth2 = getAuth(app);
     await createUserWithEmailAndPassword(auth2, email, password);
     await updateProfile(auth2.currentUser, {
-      displayName: username, photoURL: 'https://firebasestorage.googleapis.com/v0/b/social-network-237a8.appspot.com/o/profilePicture%2Fprofile-icon-gradient.svg?alt=media&token=0ccdc9b4-1b32-417b-9dc6-8eaaed3d1a2c',
+      displayName: username, photoURL: 'https://firebasestorage.googleapis.com/v0/b/gamee-97311.appspot.com/o/profilePicture%2Fprofile-icon-gradient.svg?alt=media&token=6266a90b-2334-4acc-b982-e97274d7fd76&_gl=1*clwqi6*_ga*MjA2OTc4NjIxMy4xNjk1ODM3OTI5*_ga_CW55HF8NVT*MTY5NTgzNzkyOS4xLjEuMTY5NTg0MTkwMi4zMy4wLjA.',
     });
-    console.log(auth2);
     const userData = {
       id: auth2.currentUser.uid,
       name,
       username,
       email,
-      photoURL: 'https://firebasestorage.googleapis.com/v0/b/social-network-237a8.appspot.com/o/profilePicture%2Fprofile-icon.svg?alt=media&token=d028bb21-8bcd-4272-b02f-a0a057e3c2e9',
+      photoURL: 'https://firebasestorage.googleapis.com/v0/b/gamee-97311.appspot.com/o/profilePicture%2Fprofile-icon.svg?alt=media&token=f6e9d0db-463a-4d7f-95b3-117c1465b7f6&_gl=1*1mxa0ic*_ga*MjA2OTc4NjIxMy4xNjk1ODM3OTI5*_ga_CW55HF8NVT*MTY5NTgzNzkyOS4xLjEuMTY5NTg0MTkyMC4xNS4wLjA.',
     };
     await setDoc(doc(db, 'users', `${email}`), userData);
   } catch (error) {
@@ -156,7 +154,6 @@ const likePost = async (postId, userId) => {
     likes,
     likeBy,
   });
-  console.log('like no post');
 };
 
 const deslikePost = async (postId, userId) => {
@@ -175,7 +172,6 @@ const deslikePost = async (postId, userId) => {
     likes,
     likeBy,
   });
-  console.log('dislike no post');
 };
 
 const checkLikedPosts = async (postId, userId) => {

@@ -1,16 +1,15 @@
-/* eslint-disable import/no-extraneous-dependencies */
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCnAt2p03OMLja3F4Py_O3K3t7si5vSDrQ',
-  authDomain: 'social-network-237a8.firebaseapp.com',
-  projectId: 'social-network-237a8',
-  storageBucket: 'social-network-237a8.appspot.com',
-  messagingSenderId: '1090154004073',
-  appId: '1:1090154004073:web:64244bc7454f3bc2dfacf8',
+  apiKey: "AIzaSyBiQD2J4rvaKGVhAMv-2-Yiy0NmR3wb0Es",
+  authDomain: "gamee-97311.firebaseapp.com",
+  projectId: "gamee-97311",
+  storageBucket: "gamee-97311.appspot.com",
+  messagingSenderId: "204739084657",
+  appId: "1:204739084657:web:85d2c53eabdaa8ea7fb6d0"
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

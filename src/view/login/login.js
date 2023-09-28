@@ -55,7 +55,6 @@ export default () => {
   const passCheckbox = userLogin.querySelector('#password-checkbox');
   const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+={}[\]\\|:;'<>,.?/~]).{6,}$/;
 
-  // validar se o input email e senha estão vazios
   function validateEmail() {
     const emailErrorInputValue = emailInput.value;
     if (!emailErrorInputValue) {
@@ -70,7 +69,6 @@ export default () => {
     }
   }
 
-  // limpar o erro ao digitar no input
   emailInput.addEventListener('input', () => {
     emailAlert.textContent = '';
   });
@@ -79,7 +77,6 @@ export default () => {
     passAlert.textContent = '';
   });
 
-  // Adicionar evento de clique no checkbox para mostrar/esconder a senha
   passCheckbox.addEventListener('change', () => {
     if (passCheckbox.checked) {
       passInput.type = 'text';
@@ -88,7 +85,6 @@ export default () => {
     }
   });
 
-  // Adicionar evento de clique no botão para validar os inputs email e senha
   btnLogin.addEventListener('click', async (e) => {
     e.preventDefault();
     const email = emailInput.value;
@@ -109,15 +105,12 @@ export default () => {
       await logIn(email, password);
       if (auth.currentUser) {
         window.location.href = '#feed';
-      } else {
-        userAlert.textContent = 'Usuário não cadastrado!';
       }
     } catch (error) {
-      console.log(error.message);
+      userAlert.textContent = error.message;
     }
   });
 
-  // login com google e github
   loginGoogle.addEventListener('click', async () => {
     try {
       await signInWithGoogle();
